@@ -1,0 +1,30 @@
+class SATproblems : 
+
+    def __init__(self) -> None:
+        pass
+
+    def choose_menu(self) :
+        """
+        une solution ou toutes solutions 1 une/2 toutes
+        """
+        return 
+    
+    def euristique(self) : 
+        """ 
+        0 -> sans
+        1-> h1
+        2-> h2
+        """
+        return 
+    
+    def pb(self) :
+        """
+        pigeon ou dames ?
+        """
+        return 
+    
+"""
+Codage des litéraux, n variables a1 -> a-n ça donne 2^n litéraux (nég et aff). 
+Donc codages des variables correspondance entre chaque litéral et son opposé. On le code sous forme d'un entier de 1 jusqu'à 2^n
+Donc pair littéral positif et impair négatif 
+"""
