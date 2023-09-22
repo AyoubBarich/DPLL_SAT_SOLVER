@@ -6,4 +6,11 @@ TODO:Structure pour manipuler les CNF
      Generateure de problem de pegeon
      # # Dame
      Tets et graphiqye de temps d'éxecution
+
+
+Codage interne et Structure de Données:
+    Codage des Variables : 
+        litéraux negatifs sont paires 
+        autres nombre impaires
+        Si i = a i+1 = abar
     
