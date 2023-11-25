@@ -1,13 +1,20 @@
+import java.util.ArrayList;
+import java.util.List;
 
-public class Literal {
+public class Literal extends Clause {
     private int integerValue;
     private   Boolean truthValue;
-    //private String variableName;
+    private String variableName;
 
-    public Literal(int assignedIntegerValue){
+    public Literal(int assignedIntegerValue,String assignedVariableName){
+        super(new Literal(assignedIntegerValue,assignedVariableName));
         integerValue = assignedIntegerValue;
         truthValue = assignedIntegerValue%2 !=0;
+        variableName  = assignedVariableName;
+
     }
+
+
 
     public Boolean getTruthValue() {
         return truthValue;
@@ -16,9 +23,9 @@ public class Literal {
         return integerValue;
     }
 
-/*    public String getVariableName() {
+    public String getVariableName() {
         return variableName;
-    }*/
+    }
 
     public void setIntegerValue(int integerValue) {
         this.integerValue = integerValue;
@@ -31,6 +38,6 @@ public class Literal {
     }
     @Override
     public String toString(){
-        return  "<"+integerValue+" , "+ truthValue +" >";
+        return  truthValue? "<- "+variableName+" , Value : "+integerValue+" >":"< "+variableName+" , Value : "+integerValue+" >";
     }
 }

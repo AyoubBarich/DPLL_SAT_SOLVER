@@ -13,4 +13,15 @@ public class Formule {
     public void insert(Clause clause){
         clauses.add(clause);
     }
+
+    @Override
+    public String toString() {
+        return "Formule{" +
+                "clauses=" + clauses +
+                '}';
+    }
+/*    public boolean contains(Clause clause){
+        return clauses.contains(clause);
+
+    }*/
 }
