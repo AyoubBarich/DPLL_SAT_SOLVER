@@ -7,7 +7,12 @@ import java.util.List;
 public class LiteralClauses {
 
 
-    public HashMap<Literal, LinkedList<Clause>> makeHashMap(Formule formule) {
+    public HashMap<Literal, LinkedList<Clause>> literalClauses ;
+
+    public LiteralClauses(Formule formule){
+         this.literalClauses = this.getLiteralClauses(formule);
+    }
+    public HashMap<Literal, LinkedList<Clause>> getLiteralClauses(Formule formule) {
         HashMap<Literal, LinkedList<Clause>> literalClauses = new HashMap<>();
 
 
