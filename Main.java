@@ -9,7 +9,7 @@ public class Main {
         Literal _z = new Literal(4,"z");
         Clause xor_x = new Clause(new ArrayList<>(List.of(x,_x)));
         Clause zor_z = new Clause(new ArrayList<>(List.of(z,_z)));
-        Clause mono = new Literal(5,"m");
+        Clause mono = new Clause(5,"m");
         Formule formule = new Formule(new ArrayList<>(List.of(xor_x,zor_z,mono)));
         System.out.println(mono.getLiterals().get(0).getProprety());
         System.out.println(formule);

@@ -10,6 +10,13 @@ public class Clause {
         literals = _literals;
 
     }
+
+    public Clause(int integerValue, String variableName) {
+        Literal literal = new Literal(integerValue,variableName);
+        literal.setProprety(LiteralProprety.MONO);
+        literals = new ArrayList<>(List.of(literal));
+    }
+
 /*
 
     public Clause(int integerValue, String variableName) {
@@ -21,10 +28,6 @@ public class Clause {
 
     }
 */
-
-    public Clause(){
-
-    }
 
     public ArrayList<Literal> getLiterals() {
         return literals;

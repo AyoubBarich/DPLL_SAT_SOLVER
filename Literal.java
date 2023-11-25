@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Literal extends  Clause {
+public class Literal  {
     private int integerValue;
     private   Boolean truthValue;
     private String variableName;
@@ -9,7 +9,6 @@ public class Literal extends  Clause {
     private LiteralProprety proprety;
 
     public Literal(int assignedIntegerValue,String assignedVariableName){
-        super();
 
         this.integerValue = assignedIntegerValue;
         this.truthValue = assignedIntegerValue%2 !=0;
