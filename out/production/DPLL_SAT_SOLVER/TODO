@@ -1,0 +1,16 @@
+TODO:Structure pour manipuler les CNF
+     Lire D'aprés un fichier texte et le transcrire en CNF
+     Implémentation de DPLL itérative 
+     Implémentation des deux heuristique 
+     Mettre en ouevre un Menu pour choisir le type dheuristique et une soule solution ou tout les solution et choix de prblem
+     Generateure de problem de pegeon
+     # # Dame
+     Tets et graphiqye de temps d'éxecution
+
+
+Codage interne et Structure de Données:
+    Codage des Variables : 
+        litéraux negatifs sont paires 
+        autres nombre impaires
+        Si i = a i+1 = abar
+    
