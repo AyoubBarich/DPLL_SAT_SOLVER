@@ -16,9 +16,9 @@ public class Formule {
 
     public ArrayList<Literal> getLiteralsFromFormule(){
         ArrayList<Literal> literaux = new ArrayList<>();
-        for (Clause clause : this.getClauses()){
+        for (Clause clause : this.clauses){
             for (Literal literal : clause.getLiterals()){
-                if (!clause.contains(literal)){
+                if (!literaux.contains(literal)){
                     literaux.add(literal);
                 }
             }
