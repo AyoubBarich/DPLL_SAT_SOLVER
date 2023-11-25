@@ -5,7 +5,12 @@ public class Clause {
     private ArrayList<Literal> literals ;
 
     public Clause(ArrayList<Literal> _literals){
+        /*super(_literals.get(0).getIntegerValue(),_literals.get(0).getVariableName());*/
         literals = _literals;
+
+    }
+    public Clause(Literal literal){
+        literals = new ArrayList<Literal>(List.of(literal));
     }
 
     public ArrayList<Literal> getLiterals() {
@@ -38,5 +43,8 @@ public class Clause {
             clause.append(")");
         }
         return clause.toString();
+    }
+    public boolean contains(Literal literal){
+        return  literals.contains(literal);
     }
 }
