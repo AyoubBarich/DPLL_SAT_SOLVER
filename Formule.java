@@ -14,6 +14,18 @@ public class Formule {
         clauses.add(clause);
     }
 
+    public ArrayList<Literal> getLiteralsFromFormule(){
+        ArrayList<Literal> literaux = new ArrayList<>();
+        for (Clause clause : this.getClauses()){
+            for (Literal literal : clause.getLiterals()){
+                if (!clause.contains(literal)){
+                    literaux.add(literal);
+                }
+            }
+        }
+        return literaux ;
+    }
+
     @Override
     public String toString() {
         return "Formule{" +
