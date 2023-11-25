@@ -1,18 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Literal extends Clause {
+public class Literal extends  Clause {
     private int integerValue;
     private   Boolean truthValue;
     private String variableName;
 
+    private LiteralProprety proprety;
+
     public Literal(int assignedIntegerValue,String assignedVariableName){
-        super(new Literal(assignedIntegerValue,assignedVariableName));
-        integerValue = assignedIntegerValue;
-        truthValue = assignedIntegerValue%2 !=0;
-        variableName  = assignedVariableName;
+        super();
+
+        this.integerValue = assignedIntegerValue;
+        this.truthValue = assignedIntegerValue%2 !=0;
+        this.variableName  = assignedVariableName;
 
     }
+
 
 
 
@@ -39,5 +43,15 @@ public class Literal extends Clause {
     @Override
     public String toString(){
         return  truthValue? "<- "+variableName+" , Value : "+integerValue+" >":"< "+variableName+" , Value : "+integerValue+" >";
+    }
+    public void setProprety(LiteralProprety proprety){
+        this.proprety = proprety;
+    }
+    public Literal getClone(){
+        return new Literal(this.integerValue,this.variableName);
+    }
+
+    public LiteralProprety getProprety() {
+        return proprety;
     }
 }

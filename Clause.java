@@ -4,13 +4,26 @@ import java.util.List;
 public class Clause {
     private ArrayList<Literal> literals ;
 
+
     public Clause(ArrayList<Literal> _literals){
-        /*super(_literals.get(0).getIntegerValue(),_literals.get(0).getVariableName());*/
+/*        super(_literals.get(0).getIntegerValue(),_literals.get(0).getVariableName());*/
         literals = _literals;
 
     }
-    public Clause(Literal literal){
-        literals = new ArrayList<Literal>(List.of(literal));
+/*
+
+    public Clause(int integerValue, String variableName) {
+        s*/
+/*uper(integerValue,variableName);*//*
+
+        super.setProprety(LiteralProprety.MONO);
+        literals = new ArrayList<>(List.of(super.getClone()));
+
+    }
+*/
+
+    public Clause(){
+
     }
 
     public ArrayList<Literal> getLiterals() {
