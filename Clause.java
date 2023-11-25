@@ -1,16 +1,42 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Clause {
-    private List<Literal> literals ;
+    private ArrayList<Literal> literals ;
 
-    public Clause(List<Literal> _literals){
+    public Clause(ArrayList<Literal> _literals){
         literals = _literals;
     }
 
-    public List<Literal> getLiterals() {
+    public ArrayList<Literal> getLiterals() {
         return literals;
     }
     public void insert(Literal literal){
         literals.add(literal);
+    }
+    @Override
+    public String toString()
+    {
+        /* Construct a single string for the entire clause */
+        StringBuilder clause;
+
+        if(literals.size() == 1)
+        {
+            /* Pretty-print the one clause */
+            clause = new StringBuilder(literals.get(0).toString());
+        }
+        else
+        {
+            clause = new StringBuilder("(" + literals.get(0).toString());
+
+            /* Add the pretty-print version of each clause to the string */
+            for(int i = 1 ; i < literals.size() ; i++)
+            {
+                clause.append(" V ").append(literals.get(i).toString());
+            }
+
+            clause.append(")");
+        }
+        return clause.toString();
     }
 }
