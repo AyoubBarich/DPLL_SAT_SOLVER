@@ -1,15 +1,4 @@
-
-public class Parser {
-    private String filePath;
-/*
-    public Parser(String filePath){
-        try {
-
-        }
-
-
-    }
-*/
-
+public sealed interface Parser permits StandardParser ,VariableParser{
+    Formule parse(String filePath);
 
 }
