@@ -4,15 +4,15 @@ import java.util.List;
 public class Literal  {
     private int integerValue;
     private   Boolean truthValue;
-    private String variableName;
+//    private String variableName;
 
     private LiteralProprety proprety;
 
-    public Literal(int assignedIntegerValue,String assignedVariableName){
+    public Literal(int assignedIntegerValue){
 
         this.integerValue = assignedIntegerValue;
         this.truthValue = assignedIntegerValue%2 !=0;
-        this.variableName  = assignedVariableName;
+//        this.variableName  = assignedVariableName;
 
     }
 
@@ -26,13 +26,13 @@ public class Literal  {
         return integerValue;
     }
 
-    public String getVariableName() {
-        return variableName;
-    }
+//    public String getVariableName() {
+//        return variableName;
+//    }
 
     public void setIntegerValue(int integerValue) {
         this.integerValue = integerValue;
-        this.truthValue = integerValue%2 !=0;
+        this.truthValue = null;
     }
 
     @Override
@@ -41,13 +41,13 @@ public class Literal  {
     }
     @Override
     public String toString(){
-        return  truthValue? "<- "+variableName+" , Value : "+integerValue+" >":"< "+variableName+" , Value : "+integerValue+" >";
+        return "" +integerValue;
     }
     public void setProprety(LiteralProprety proprety){
         this.proprety = proprety;
     }
     public Literal getClone(){
-        return new Literal(this.integerValue,this.variableName);
+        return new Literal(this.integerValue);
     }
 
     public LiteralProprety getProprety() {

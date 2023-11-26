@@ -11,8 +11,8 @@ public class Clause {
 
     }
 
-    public Clause(int integerValue, String variableName) {
-        Literal literal = new Literal(integerValue,variableName);
+    public Clause(int integerValue) {
+        Literal literal = new Literal(integerValue);
         literal.setProprety(LiteralProprety.MONO);
         literals = new ArrayList<>(List.of(literal));
     }
