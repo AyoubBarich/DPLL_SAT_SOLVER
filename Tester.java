@@ -1,10 +1,9 @@
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
-public class Main {
-    public static void main(String[] args) {
+public class Tester {
+    public static void main(String[] args) throws IOException {
         Literal x = new Literal(1,"x");
         Literal _x = new Literal(2,"x");
         Literal z =  new Literal(3,"z");

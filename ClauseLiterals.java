@@ -24,4 +24,9 @@ public class ClauseLiterals {
         }
         return clauseLiterals;
     }
+
+    public String toString() {
+        return "Tableau des litéraux en fonction des clauses  "+this.clauseLiterals ;
+    }
+
 }

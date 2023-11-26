@@ -32,4 +32,8 @@ public class LiteralClauses {
         return literalClauses;
         }
 
+    public String toString() {
+        return "Tableau des clauses en fonction des litéraux  "+this.literalClauses ;
+    }
+
     }
