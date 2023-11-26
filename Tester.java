@@ -8,13 +8,13 @@ public class Tester {
         Literal _x = new Literal(2,"x");
         Literal z =  new Literal(3,"z");
         Literal _z = new Literal(4,"z");
-        Clause xor_x = new Clause(new ArrayList<>(List.of(x,_x)));
-        Clause zor_z = new Clause(new ArrayList<>(List.of(z,_z)));
-        Clause mono = new Clause(5,"m");
-        Formule formule = new Formule(new ArrayList<>(List.of(xor_x,zor_z,mono)));
+        Clause un = new Clause(new ArrayList<>(List.of(x,_x)));
+        Clause deux = new Clause(new ArrayList<>(List.of(z,_z)));
+        Clause trois = new Clause(5,"m");
+        Formule formule = new Formule(new ArrayList<>(List.of(un,deux,trois)));
 
-        System.out.println(formule.getLiteralsFromFormule());
-        System.out.println(formule.getClauses());
+        System.out.println("Litéraux d'une formule" + formule.getLiteralsFromFormule());
+        System.out.println("Clauses d'une formule" + formule.getClauses()); 
         LiteralClauses literalClauses = new LiteralClauses(formule);
         System.out.println(literalClauses);
         ClauseLiterals clauseLiterals = new ClauseLiterals(formule);
