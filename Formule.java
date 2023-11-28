@@ -26,6 +26,19 @@ public class Formule {
         return literaux ;
     }
 
+    public ArrayList<Literal> getPureLiterals(){
+        ArrayList<Literal> pureLiteral = new ArrayList<>();
+        ArrayList<Literal> literals = this.getLiteralsFromFormule();
+        for (Literal literal : literals) {
+                Literal opposite = literal.getIntegerValue() % 2 == 0 ? new Literal(literal.getIntegerValue()-1) : new Literal( literal.getIntegerValue() +1 );
+                if (!literals.contains(opposite)){
+                    pureLiteral.add(literal);
+                }
+            }
+
+        return pureLiteral;
+    }
+
     @Override
     public String toString() {
         return "Formule{" +
