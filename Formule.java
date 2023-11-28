@@ -32,6 +32,7 @@ public class Formule {
         for (Literal literal : literals) {
                 Literal opposite = literal.getIntegerValue() % 2 == 0 ? new Literal(literal.getIntegerValue()-1) : new Literal( literal.getIntegerValue() +1 );
                 if (!literals.contains(opposite)){
+                    literal.setProprety(LiteralProprety.PUR);
                     pureLiteral.add(literal);
                 }
             }
