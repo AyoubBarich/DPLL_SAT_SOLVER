@@ -32,8 +32,8 @@ public class Literal  {
 
     public void setIntegerValue(int integerValue) {
         this.integerValue = integerValue;
-        this.truthValue = null;
     }
+    public void  setTruthValue(Boolean b){this.truthValue = b;}
 
     @Override
     public boolean equals(Object obj) {

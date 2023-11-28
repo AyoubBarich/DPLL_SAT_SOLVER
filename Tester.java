@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Tester {
     public static void main(String[] args) throws IOException {
-        Literal x = new Literal(1);
+/*        Literal x = new Literal(1);
         Literal _x = new Literal(2);
         Literal z =  new Literal(3);
         Literal _z = new Literal(4);
@@ -20,6 +20,8 @@ public class Tester {
         LiteralClauses literalClauses = new LiteralClauses(formule);
         System.out.println(literalClauses);
         ClauseLiterals clauseLiterals = new ClauseLiterals(formule);
-        System.out.println(clauseLiterals);
+        System.out.println(clauseLiterals);*/
+        StandardParser parser = new StandardParser();
+        System.out.println(parser.parse("./Inputs/bench-sat/5.cnf"));
     }
 }
