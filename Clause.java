@@ -35,6 +35,7 @@ public class Clause {
     public void insert(Literal literal){
         literals.add(literal);
     }
+    public void delete(Literal literal){ literals.remove(literal);}
     @Override
     public String toString()
     {
