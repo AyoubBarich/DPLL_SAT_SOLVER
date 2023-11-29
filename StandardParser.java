@@ -23,7 +23,6 @@ public final class StandardParser implements Parser {
         for (String[] str : clauses){
             ArrayList<Literal> literals = new ArrayList<>();
             for (String string: Arrays.stream(str).filter(s -> !s.isEmpty()).toList()) {
-                    System.out.println("#"+string+"#");
                     literals.add(new Literal(transformLiteralToIndex(Integer.parseInt(string))));
                 }
             if (!literals.isEmpty()) {
