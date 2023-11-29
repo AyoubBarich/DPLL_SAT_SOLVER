@@ -36,6 +36,21 @@ public class Clause {
         literals.add(literal);
     }
     public void delete(Literal literal){ literals.remove(literal);}
+
+    public boolean contains(Literal literal){
+        return  literals.contains(literal);
+    }
+
+    public boolean isSatisfaisable(){
+        ArrayList<Literal> allLiterals = literals;
+        for (Literal literal : allLiterals){
+            if (literal.getTruthValue() == true){
+                return true;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString()
     {
@@ -60,8 +75,6 @@ public class Clause {
             clause.append(")");
         }
         return clause.toString();
-    }
-    public boolean contains(Literal literal){
-        return  literals.contains(literal);
+
     }
 }

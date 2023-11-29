@@ -13,6 +13,7 @@ public class Formule {
     public void insert(Clause clause){
         clauses.add(clause);
     }
+    public boolean isEmpty(){return clauses.isEmpty() ;}
 
     public ArrayList<Literal> getLiteralsFromFormule(){
         ArrayList<Literal> literaux = new ArrayList<>();
@@ -37,6 +38,16 @@ public class Formule {
             }
 
         return pureLiteral;
+    }
+
+    public boolean isFormulaSatisfaisaible(){
+        ArrayList<Clause> allClauses = this.clauses;
+        for (Clause clause : allClauses){
+            if (!clause.isSatisfaisable() == true){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

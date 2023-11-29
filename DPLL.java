@@ -20,4 +20,5 @@ public class DPLL {
 
         }
     }
+    public boolean[] solveurDPLL(){}
 }
