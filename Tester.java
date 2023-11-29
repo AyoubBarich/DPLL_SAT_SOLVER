@@ -2,7 +2,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Tester {
@@ -44,6 +43,50 @@ public class Tester {
         assert (formule.getPureLiterals().equals(new ArrayList<>(List.of(x,z,new Literal(7)))));
 
     }
+    @Test
+    public void isSatisfaisableTest(){
+        Literal A = new Literal(9);
+        A.setTruthValue(false);
+        System.out.println(A.getTruthValue());
+        Literal Y = new Literal(11);
+        Y.setTruthValue(true);
+        Literal O = new Literal(13);
+        O.setTruthValue(false);
+        Literal U = new Literal(15);
+        U.setTruthValue(true);
+        Literal B = new Literal(17);
+        B.setTruthValue(true);
 
+        Clause b = new Clause(new ArrayList<>(List.of(A,Y,O)));
+        Clause g = new Clause(new ArrayList<>(List.of(U,B)));
+
+        Formule ilGère = new Formule(new ArrayList<>(List.of(b,g)));
+        System.out.println(ilGère);
+        System.out.println(b.isSatisfaisable());
+        assert(b.isSatisfaisable() == true);
+        assert(g.isSatisfaisable() == true);
+        assert(ilGère.isFormulaSatisfaisaible() == true);
+
+
+    }
+
+    @Test
+    public void affectTrurhValueTest(){
+        Literal t = new Literal(19);
+        Literal _t = new Literal(20);
+        Literal b =  new Literal(21);
+        Literal _b = new Literal(22);
+        Literal o = new Literal(23);
+        Literal _o = new Literal(24);
+
+        Clause tuGèresLaFougère = new Clause(new ArrayList<>(List.of(b,o,t,_o)));
+        Clause weLoveCow = new Clause(new ArrayList<>(List.of(_t,_b)));
+
+        Formule formule1 = new Formule(new ArrayList<>(List.of(tuGèresLaFougère,weLoveCow)));
+        formule1.affectTruthValue(t,true);
+        assert(t.getTruthValue() == true);
+        assert(_t.getTruthValue() == false);
+
+    }
 
 }

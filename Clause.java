@@ -44,11 +44,13 @@ public class Clause {
     public boolean isSatisfaisable(){
         ArrayList<Literal> allLiterals = literals;
         for (Literal literal : allLiterals){
+
             if (literal.getTruthValue() == true){
                 return true;
             }
         }
-        return true;
+
+        return false;
     }
 
     @Override
