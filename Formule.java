@@ -73,6 +73,24 @@ public class Formule {
         }
     }
 
+    public ArrayList<Integer> vecteurEtatClause(){
+        ArrayList<Integer> vec = new ArrayList<>();
+        for(Clause clause : this.getClauses()){
+            vec.add(0);
+        }
+        return vec;
+    }
+
+    public ArrayList<Integer> modifValueVecteur(ArrayList<Integer> vector ,Literal literal, boolean truthValue){
+        literal.setTruthValue(truthValue);
+        for(Clause clause : this.getClauses()){
+           int index = this.getClauses().indexOf(clause);
+           if ((clause.contains(literal)) & (clause.isSatisfaisable())){
+               vector.add(index, literal.getIntegerValue());
+           }
+        }
+        return vector;
+    }
     @Override
     public String toString() {
         return "Formule{" +
