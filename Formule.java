@@ -91,6 +91,13 @@ public class Formule {
         }
         return vector;
     }
+
+    public int getClauseValue(Clause clause){
+        int index = this.clauses.indexOf(clause);
+        return index ;
+    }
+
+
     @Override
     public String toString() {
         return "Formule{" +
