@@ -148,5 +148,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="gitlab.cdc.java.tuples" level="project" />
+    <orderEntry type="library" name="gitlab.cdc.java.tuples1" level="project" />
   </component>
 </module>

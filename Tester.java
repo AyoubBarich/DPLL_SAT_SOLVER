@@ -47,7 +47,7 @@ public class Tester {
         ClauseLiterals clauseLiterals = new ClauseLiterals(formule);
         System.out.println(clauseLiterals);*/
         StandardParser parser = new StandardParser();
-        System.out.println(parser.parse("./Inputs/bench-sat/5.cnf"));
+        System.out.println(parser.parse("./Inputs/testcnf.cnf"));
     }
 
 

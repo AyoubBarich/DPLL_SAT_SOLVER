@@ -59,7 +59,9 @@ public class Formule {
     public void affectTruthValue(Literal literal, Boolean literalTruthValue) {
         // On définit la valeur du litéral
         literal.setTruthValue(literalTruthValue);
+        literal.hasBeenAffected=true;
         // On cherche s'il existe dans la formule son négatif:
+        removeLiteralAfterAssignment(literal);
         int value = literal.getIntegerValue();
 
         ArrayList<Literal> literals = this.getLiteralsFromFormule();
@@ -67,13 +69,28 @@ public class Formule {
             if (value % 2 == 0) {
                 if (elementOfLiterals.getIntegerValue() == value - 1) {
                     elementOfLiterals.setTruthValue(!literalTruthValue);
+                    removeLiteralAfterAssignment(elementOfLiterals);
                 }
             } else {
                 if (elementOfLiterals.getIntegerValue() == value + 1) {
                     elementOfLiterals.setTruthValue(!literalTruthValue);
+                    removeLiteralAfterAssignment(elementOfLiterals);
                 }
             }
 
+        }
+    }
+    public void removeLiteralAfterAssignment(Literal literal){
+        if (literal.getTruthValue()) {
+            int i=0;
+            for (Clause clause : clauses) {
+                if (clause.contains(literal)){
+                    clause.stasfiable =true;
+                    this.vecteurEtatClause().add(i,1);
+                }
+
+                i++;
+            }
         }
     }
 
@@ -120,39 +137,8 @@ public class Formule {
 
 
     }
-    public void assignTrueFirstTail(){
-        ArrayList<Clause> clauses = this.getClauses();
-        ArrayList<Literal> pureLiterals = this.getPureLiterals();
-        for (Clause clause : clauses) {
-            if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(true);
-                break;
-            }
-        }
-        if(pureLiterals.size() != 0){
-            pureLiterals.getFirst().setTruthValue(true);
-        }
-        else {
-            this.firstSastify().setTruthValue(true);
-        }
-    }
 
-    public void assignFalseFirstTail(){
-        ArrayList<Clause> clauses = this.getClauses();
-        ArrayList<Literal> pureLiterals = this.getPureLiterals();
-        for (Clause clause : clauses) {
-            if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(false);
-                break;
-            }
-        }
-        if(pureLiterals.size() != 0){
-            pureLiterals.getFirst().setTruthValue(false);
-        }
-        else {
-            this.firstSastify().setTruthValue(false);
-        }
-    }
+
     public void assignTrueFirstFail(){
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
@@ -169,22 +155,6 @@ public class Formule {
             this.firstFail().setTruthValue(true);
         }
     }
-    public void assignFalseFirstFail(){
-        ArrayList<Clause> clauses = this.getClauses();
-        ArrayList<Literal> pureLiterals = this.getPureLiterals();
-        for (Clause clause : clauses) {
-            if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(false);
-                break;
-            }
-        }
-        if(pureLiterals.size() != 0){
-            pureLiterals.getFirst().setTruthValue(false);
-        }
-        else {
-            this.firstFail().setTruthValue(false);
-        }
-    }
 
 
     public ArrayList<Integer> vecteurEtatClause(){
@@ -193,6 +163,14 @@ public class Formule {
             vec.add(0);
         }
         return vec;
+    }
+    public ArrayList<Integer> vecteurLongeurClause(){
+        ArrayList<Integer> vec = new ArrayList<>();
+        for(Clause clause : this.getClauses()){
+            vec.add(clause.size());
+        }
+        return vec;
+
     }
 
     public ArrayList<Integer> modifValueVecteur(ArrayList<Integer> vector ,Literal literal, boolean truthValue){
@@ -206,6 +184,18 @@ public class Formule {
         return vector;
     }
 
+    public Literal getMono(){
+        for (Clause clause :this.getClauses()){
+            if (clause.isMono()){return  clause.getliteralFromMonoClause();}
+        }
+        return null;
+
+    }
+    public Literal getFistToTest(){
+        return this.getMono()==null?this.getPureLiterals().isEmpty()?this.heuristique():getPureLiterals().get(0):this.getMono();
+    }
+    public Literal heuristique(){return this.getLiteralsFromFormule().get(0);}
+
     public int getClauseValue(Clause clause){
         int index = this.clauses.indexOf(clause);
         return index ;
@@ -217,6 +207,14 @@ public class Formule {
         return "Formule{" +
                 "clauses=" + clauses +
                 '}';
+    }
+
+    public Formule assignTrue() {
+        return null;
+    }
+
+    public Formule assignFalse() {
+        return null;
     }
 /*    public boolean contains(Clause clause){
         return clauses.contains(clause);

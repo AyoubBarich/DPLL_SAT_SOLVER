@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Clause {
     private ArrayList<Literal> literals ;
+    public boolean stasfiable;
 
 
     public Clause(ArrayList<Literal> _literals){
@@ -54,6 +55,7 @@ public class Clause {
     }
 
     public boolean isMono(){return (this.literals.size() == 1);}
+    public int size(){return this.literals.size();}
 
     public Literal getliteralFromMonoClause(){
         return this.getLiterals().get(0);
