@@ -25,7 +25,8 @@ public class Tester {
         Literal _y = new Literal(6);
         Clause un = new Clause(new ArrayList<>(List.of(x,z,_y)));
         Clause deux = new Clause(new ArrayList<>(List.of(z,x,y)));
-        Clause trois = new Clause(7);
+        Literal troisLit = new Literal(7);
+        Clause trois = new Clause(new ArrayList<>(List.of(troisLit)));
         Formule formule = new Formule(new ArrayList<>(List.of(un,deux,trois)));
 
         System.out.println("Litéraux d'une formule" + formule.getLiteralsFromFormule());
@@ -43,6 +44,8 @@ public class Tester {
         System.out.println(formule);
         System.out.println(formule.getPureLiterals());
         assert (formule.getPureLiterals().equals(new ArrayList<>(List.of(x,z,new Literal(7)))));
+        assert (x.getProprety().equals(LiteralProprety.PUR));
+        assert (trois.getProprety().equals(LiteralProprety.MONO));
 
     }
     @Test
