@@ -50,6 +50,16 @@ public class Literal  {
         return new Literal(this.integerValue);
     }
 
+    public Literal opposite(){
+        if (this.integerValue % 2 == 0){
+            return new Literal(this.integerValue - 1);
+        }
+        else{
+            return new Literal((this.integerValue +1));
+        }
+    }
+
+
     public LiteralProprety getProprety() {
         return proprety;
     }

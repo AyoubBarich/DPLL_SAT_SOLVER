@@ -53,6 +53,12 @@ public class Clause {
         return false;
     }
 
+    public boolean isMono(){return (this.literals.size() == 1);}
+
+    public Literal getliteralFromMonoClause(){
+        return this.getLiterals().get(0);
+    }
+
     @Override
     public String toString()
     {

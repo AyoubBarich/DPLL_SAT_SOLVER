@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.*;
 
 public class Formule {
     private ArrayList<Clause> clauses ;
@@ -41,6 +43,7 @@ public class Formule {
         return pureLiteral;
     }
 
+
     public boolean isFormulaSatisfaisaible(){
         ArrayList<Clause> allClauses = this.clauses;
         boolean condition = true;
@@ -73,6 +76,116 @@ public class Formule {
 
         }
     }
+
+    public void Assign(){
+
+    }
+
+    public Literal firstSastify() {
+        ArrayList<Integer> counter = new ArrayList<>();
+        ArrayList<Literal> literalsInFormula = getLiteralsFromFormule();
+        for (int i = 0; i <= literalsInFormula.size(); i++) {
+            counter.add(0);
+        }
+        for (Literal literal : literalsInFormula) {
+            int index = literalsInFormula.indexOf(literal);
+            for (Clause clause : getClauses()) {
+                if ((clause.contains(literal))|(clause.contains(literal.opposite()))) {
+                    counter.add(index, counter.get(index) + 1);
+                }
+            }
+        }
+        return literalsInFormula.get(counter.indexOf(Collections.max(counter)));
+
+    }
+
+    public Literal firstFail(){
+
+        ArrayList<Literal> literalsInFormula = getLiteralsFromFormule();
+        ArrayList<Integer> counter = new ArrayList<>();
+        for (int i = 0; i <= literalsInFormula.size(); i++) {
+            counter.add(0);
+        }
+        for (Literal literal : literalsInFormula) {
+            if(literal.getIntegerValue()%2 == 1){
+            int index = literalsInFormula.indexOf(literal);
+            for (Clause clause : getClauses()) {
+                if (clause.contains(literal.opposite())) {
+                    counter.add(index, counter.get(index) + 1);
+                }
+            }
+        }
+        }
+        return literalsInFormula.get(counter.indexOf(Collections.max(counter)));
+
+
+    }
+    public void assignTrueFirstTail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(true);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(true);
+        }
+        else {
+            this.firstSastify().setTruthValue(true);
+        }
+    }
+
+    public void assignFalseFirstTail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(false);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(false);
+        }
+        else {
+            this.firstSastify().setTruthValue(false);
+        }
+    }
+    public void assignTrueFirstFail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(true);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(true);
+        }
+        else {
+            this.firstFail().setTruthValue(true);
+        }
+    }
+    public void assignFalseFirstFail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(false);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(false);
+        }
+        else {
+            this.firstFail().setTruthValue(false);
+        }
+    }
+
 
     public ArrayList<Integer> vecteurEtatClause(){
         ArrayList<Integer> vec = new ArrayList<>();
