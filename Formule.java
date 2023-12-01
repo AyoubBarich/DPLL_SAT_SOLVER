@@ -44,7 +44,7 @@ public class Formule {
     public boolean isFormulaSatisfaisaible(){
         ArrayList<Clause> allClauses = this.clauses;
         for (Clause clause : allClauses){
-            if (!clause.isSatisfaisable() == true){
+            if (clause.isSatisfaisable() == false){
                 return false;
             }
         }

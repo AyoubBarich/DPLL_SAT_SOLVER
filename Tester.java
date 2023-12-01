@@ -15,6 +15,7 @@ public class Tester {
     Clause deux = new Clause(new ArrayList<>(List.of(z,x,y)));
     Clause trois = new Clause(7);
     Formule formule = new Formule(new ArrayList<>(List.of(un,deux,trois)));
+
     public static void main(String[] args) throws IOException {
 /*        Literal x = new Literal(1);
         Literal _x = new Literal(2);
