@@ -98,7 +98,7 @@ public class Formule {
 
     }
 
-    public Literal firstSastify() {
+    public Literal firstSatisfy() {
         ArrayList<Integer> counter = new ArrayList<>();
         ArrayList<Literal> literalsInFormula = getLiteralsFromFormule();
         for (int i = 0; i <= literalsInFormula.size(); i++) {
@@ -153,6 +153,56 @@ public class Formule {
         }
         else {
             this.firstFail().setTruthValue(true);
+        }
+    }
+
+    public void assignFalseFirstFail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(false);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(false);
+        }
+        else {
+            this.firstFail().setTruthValue(false);
+        }
+    }
+
+    public void assignTrueFirstTail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(true);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(true);
+        }
+        else {
+            this.firstSatisfy().setTruthValue(true);
+        }
+    }
+    public void assignFalseFirstTail(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                clause.getliteralFromMonoClause().setTruthValue(true);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(true);
+        }
+        else {
+            this.firstSatisfy().setTruthValue(true);
         }
     }
 

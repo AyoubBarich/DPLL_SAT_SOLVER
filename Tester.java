@@ -103,7 +103,7 @@ public class Tester {
         Clause i = new Clause(new ArrayList<>(List.of(t,_t,b)));
         Formule formule2 = new Formule(new ArrayList<>(List.of(h,i)));
 
-        assert(formule2.firstSastify().equals(t));
+        assert(formule2.firstSatisfy().equals(t));
 
 
     }
@@ -112,7 +112,7 @@ public class Tester {
         Clause h = new Clause(new ArrayList<>(List.of(x,_x,x,x,_t)));
         Clause i = new Clause(new ArrayList<>(List.of(t,_t,b)));
         Formule formule2 = new Formule(new ArrayList<>(List.of(h,i)));
-        assert(formule2.firstSastify().equals(t));
+        assert(formule2.firstSatisfy().equals(t));
     }
 
     @Test
@@ -121,6 +121,7 @@ public class Tester {
         Clause clause2 = new Clause(new ArrayList<>(List.of(x,y)));
         assert(clause.isMono()==true);
         assert(clause2.isMono()==false);
+
 
     }
 
