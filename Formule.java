@@ -144,7 +144,7 @@ public class Formule {
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
             if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(true);
+                this.affectTruthValue(clause.getliteralFromMonoClause(), true);
                 break;
             }
         }
@@ -152,7 +152,7 @@ public class Formule {
             pureLiterals.getFirst().setTruthValue(true);
         }
         else {
-            this.firstFail().setTruthValue(true);
+            this.affectTruthValue(this.firstFail(),true);
         }
     }
 
@@ -161,7 +161,7 @@ public class Formule {
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
             if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(false);
+                this.affectTruthValue(clause.getliteralFromMonoClause(), false);
                 break;
             }
         }
@@ -169,7 +169,7 @@ public class Formule {
             pureLiterals.getFirst().setTruthValue(false);
         }
         else {
-            this.firstFail().setTruthValue(false);
+            this.affectTruthValue(this.firstFail(),false);
         }
     }
 
@@ -178,7 +178,7 @@ public class Formule {
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
             if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(true);
+                this.affectTruthValue(clause.getliteralFromMonoClause(), true);
                 break;
             }
         }
@@ -186,15 +186,33 @@ public class Formule {
             pureLiterals.getFirst().setTruthValue(true);
         }
         else {
-            this.firstSatisfy().setTruthValue(true);
+            this.affectTruthValue(this.firstSatisfy(),true);
         }
     }
+
     public void assignFalseFirstTail(){
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
             if (clause.isMono()) {
-                clause.getliteralFromMonoClause().setTruthValue(true);
+                this.affectTruthValue(clause.getliteralFromMonoClause(), false);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(false);
+        }
+        else {
+            this.affectTruthValue(this.firstSatisfy(),false);
+        }
+    }
+
+    public void assignTrueRandom(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                this.affectTruthValue(clause.getliteralFromMonoClause(), true);
                 break;
             }
         }
@@ -202,7 +220,24 @@ public class Formule {
             pureLiterals.getFirst().setTruthValue(true);
         }
         else {
-            this.firstSatisfy().setTruthValue(true);
+            this.affectTruthValue(this.getLiteralsFromFormule().get(0),true);
+        }
+    }
+
+    public void assignFalseRandom(){
+        ArrayList<Clause> clauses = this.getClauses();
+        ArrayList<Literal> pureLiterals = this.getPureLiterals();
+        for (Clause clause : clauses) {
+            if (clause.isMono()) {
+                this.affectTruthValue(clause.getliteralFromMonoClause(), false);
+                break;
+            }
+        }
+        if(pureLiterals.size() != 0){
+            pureLiterals.getFirst().setTruthValue(false);
+        }
+        else {
+            this.affectTruthValue(this.getLiteralsFromFormule().get(0),false);
         }
     }
 
