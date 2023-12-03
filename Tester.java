@@ -50,6 +50,12 @@ public class Tester {
         System.out.println(parser.parse("./Inputs/testcnf.cnf"));
     }
 
+    @Test
+    public void equalTest(){
+        Literal k = new Literal(12);
+        Literal j = new Literal(12);
+        assert(k.equals(j));
+    }
 
     @Test
     public void isSatisfaisableTest(){
@@ -71,11 +77,6 @@ public class Tester {
         Formule ilGere = new Formule(new ArrayList<>(List.of(b,g)));
         System.out.println(ilGere);
         System.out.println(b.isSatisfaisable());
-
-
-
-
-
 
     }
 
@@ -109,10 +110,47 @@ public class Tester {
     }
     @Test
     public void firstTailTest(){
+
         Clause h = new Clause(new ArrayList<>(List.of(x,_x,x,x,_t)));
         Clause i = new Clause(new ArrayList<>(List.of(t,_t,b)));
         Formule formule2 = new Formule(new ArrayList<>(List.of(h,i)));
-        assert(formule2.firstSatisfy().equals(t));
+        assert(formule2.firstFail().equals(t));
+
+    }
+
+    @Test
+    public void assignTrueFirstFail(){
+
+        Literal x = new Literal(1);
+        Literal _x = new Literal(2);
+        Literal z =  new Literal(3);
+        Literal _z = new Literal(4);
+        Literal y = new Literal(5);
+
+
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,_x,t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z,_x,t,_z,y)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y,_x,_t)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+
+
+        Literal littest1 = bgOfTheWorld.assignTrueFirstFail();
+
+        assert(littest1 == z);
+        assert(z.getTruthValue() == true);
+        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,1,1,0,0));
+        assert(bgOfTheWorld.assignedLiteralList.equals(testList));
+
+
+        Literal litTest = bgOfTheWorld.assignTrueFirstFail();
+        assert(litTest.equals(y));
+        Literal litest2 =bgOfTheWorld.assignTrueFirstFail();
+        assert(litest2.equals(x));
+
+
+
     }
 
     @Test

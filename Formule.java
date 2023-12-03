@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.*;
 
 public class Formule {
+
     private ArrayList<Clause> clauses ;
     public ArrayList<Literal> literalList;
 
@@ -11,7 +12,8 @@ public class Formule {
     public Formule(ArrayList<Clause> _clauses){
         clauses = _clauses;
         literalList = new ArrayList<>();
-        literalList.add(null);
+        Literal nullLit = new Literal(0);
+        literalList.add(nullLit);
         for (Literal literal : this.getLiteralsFromFormule()){
             literalList.add(literal);
         }
@@ -23,7 +25,8 @@ public class Formule {
     }
     public void changeValue(Literal literal){
         int index = literalList.indexOf(literal);
-        assignedLiteralList.add(index,1);
+        assignedLiteralList.set(index,1);
+
     }
 
     public ArrayList<Clause> getClauses() {
@@ -48,11 +51,12 @@ public class Formule {
 
     public ArrayList<Literal> getPureLiterals(){
         ArrayList<Literal> pureLiteral = new ArrayList<>();
+        Literal litNull = new Literal(0);
+        pureLiteral.add(litNull);
         ArrayList<Literal> literals = this.getLiteralsFromFormule();
         for (Literal literal : literals) {
                 Literal opposite = literal.getIntegerValue() % 2 == 0 ? new Literal(literal.getIntegerValue()-1) : new Literal( literal.getIntegerValue() +1 );
                 if (!literals.contains(opposite)){
-                    if(!literal.getProprety().equals(LiteralProprety.MONO)) { literal.setProprety(LiteralProprety.PUR);}
                     pureLiteral.add(literal);
                 }
             }
@@ -122,9 +126,12 @@ public class Formule {
             counter.add(0);
         }
         for (Literal literal : literalsInFormula) {
+
             if (assignedLiteralList.get(literalList.indexOf(literal)) ==0 ){
+
                 int index = literalsInFormula.indexOf(literal);
                 for (Clause clause : getClauses()) {
+
                     if ((clause.contains(literal))|(clause.contains(literal.opposite()))) {
                         counter.add(index, counter.get(index) + 1);
                     }
@@ -159,7 +166,7 @@ public class Formule {
     }
 
 
-    public void assignTrueFirstFail(){
+    public Literal assignTrueFirstFail(){
 
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
@@ -167,77 +174,93 @@ public class Formule {
         for (Clause clause : clauses) {
             if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)){
                 this.affectTruthValue(clause.getliteralFromMonoClause(), true);
-                break;
+                return(clause.getliteralFromMonoClause());
             }
         }
-        if((pureLiterals.size() != 0)&(this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.getFirst())) == 0)){
-            pureLiterals.getFirst().setTruthValue(true);
-            changeValue(pureLiterals.getFirst());
+
+        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
+
+            pureLiterals.get(1).setTruthValue(true);
+            changeValue(pureLiterals.get(1));
+            return(pureLiterals.get(1));
         }
         else {
-            this.affectTruthValue(this.firstFail(),true);
+            Literal litFail = this.firstFail();
+            this.affectTruthValue(litFail,true);
+            return (litFail);
         }
     }
 
-    public void assignFalseFirstFail(){
+    public Literal assignFalseFirstFail(){
 
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
             if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)) {
                 this.affectTruthValue(clause.getliteralFromMonoClause(), false);
-                break;
+                return clause.getliteralFromMonoClause();
             }
         }
-        if((pureLiterals.size() != 0)&(this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.getFirst())) == 0)){
-            pureLiterals.getFirst().setTruthValue(false);
-            changeValue(pureLiterals.getFirst());
+        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
+
+            pureLiterals.get(1).setTruthValue(false);
+            changeValue(pureLiterals.get(1));
+            return(pureLiterals.get(1));
         }
         else {
-            this.affectTruthValue(this.firstFail(),false);
+            Literal litFail = this.firstFail();
+            this.affectTruthValue(litFail,false);
+            return (litFail);
         }
     }
 
-    public void assignTrueFirstTail(){
+    public Literal assignTrueFirstTail(){
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
 
         for (Clause clause : clauses) {
             if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)) {
                 this.affectTruthValue(clause.getliteralFromMonoClause(), true);
-                break;
+                return clause.getliteralFromMonoClause();
             }
-            break;
-        }
-        if((pureLiterals.size() != 0) & (this.assignedLiteralList.get(literalList.indexOf(pureLiterals.getFirst())) == 0)){
-            pureLiterals.getFirst().setTruthValue(true);
-            changeValue(pureLiterals.getFirst());
 
         }
+        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
+
+            pureLiterals.get(1).setTruthValue(true);
+            changeValue(pureLiterals.get(1));
+            return(pureLiterals.get(1));
+        }
         else {
-            this.affectTruthValue(this.firstSatisfy(),true);
+            Literal litSat = this.firstSatisfy();
+            this.affectTruthValue(litSat,true);
+            return litSat;
         }
     }
 
-    public void assignFalseFirstTail(){
-
+    public Literal assignFalseFirstTail(){
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
+
         for (Clause clause : clauses) {
             if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)) {
                 this.affectTruthValue(clause.getliteralFromMonoClause(), false);
-                break;
+                return clause.getliteralFromMonoClause();
             }
+
         }
-        if((pureLiterals.size() != 0) & (this.assignedLiteralList.get(literalList.indexOf(pureLiterals.getFirst())) == 0)){
-            pureLiterals.getFirst().setTruthValue(false);
-            changeValue(pureLiterals.getFirst());
+        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
+
+            pureLiterals.get(1).setTruthValue(false);
+            changeValue(pureLiterals.get(1));
+            return(pureLiterals.get(1));
         }
         else {
-            this.affectTruthValue(this.firstSatisfy(),false);
+            Literal litSat = this.firstSatisfy();
+            this.affectTruthValue(litSat,false);
+            return litSat;
         }
     }
-
     public void assignTrueRandom(){
 
         ArrayList<Clause> clauses = this.getClauses();
