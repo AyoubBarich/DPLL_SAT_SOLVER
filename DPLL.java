@@ -19,8 +19,10 @@ public class DPLL {
 
                     for (Literal literalFormule : formule.getLiteralsFromFormule()) {
 
-                        if (formule.assignedLiteralList.get(formule.literalList.indexOf(literalFormule)) == 1) {
-                            modele.add(literalFormule);
+                        if (literalFormule.getTruthValue() != null) {
+                            if(literalFormule.getTruthValue()) {
+                                modele.add(literalFormule);
+                            }
                         }
                     }
                     modeles.add(modele);
@@ -34,14 +36,20 @@ public class DPLL {
             System.out.println(literalStack);
             System.out.println("while 2 "+ !literalStack.isEmpty());
            Literal litChangAssignement = literalStack.pop();
+            System.out.println(litChangAssignement);
             System.out.println(literalStack);
            formule.affectTruthValue(litChangAssignement, !litChangAssignement.getTruthValue());
-            System.out.println("c");
-           for (Literal literal : formule.getLiteralsFromFormule()){
-               if ((formule.assignedLiteralList.get(formule.literalList.indexOf(literal)) == 1) & (literal != litChangAssignement)){
+            System.out.println(formule.assignedLiteralList);
+
+            for (Literal literal : formule.getLiteralsFromFormule()){
+               System.out.println(literal);
+               if ((literal != litChangAssignement) & (!literal.equals(litChangAssignement.opposite())) & (formule.assignedLiteralList.get(formule.literalList.indexOf(literal)) == 1) & (!literalStack.contains(literal)) & (!literalStack.contains(literal.opposite()))){
                    formule.desaffectTruthValue(literal);
                }
+               System.out.println(formule.assignedLiteralList);
+               System.out.println(formule.literalList);
            }
+            System.out.println(formule.assignedLiteralList);
             System.out.println("d");
             System.out.println("while 3 " + formule.assignedLiteralList.contains(0) +" "+ (formule.isFormulaSatisfaisaible()==null));
             System.out.println("e");
@@ -56,8 +64,10 @@ public class DPLL {
 
                        for (Literal literalFormule : formule.getLiteralsFromFormule()) {
 
-                           if (formule.assignedLiteralList.get(formule.literalList.indexOf(literalFormule)) == 1) {
-                               modele.add(literalFormule);
+                           if (literalFormule.getTruthValue() != null) {
+                               if(literalFormule.getTruthValue()) {
+                                   modele.add(literalFormule);
+                               }
                            }
                        }
 
@@ -66,7 +76,7 @@ public class DPLL {
                    break;
                }
            }
-        }
+       }
 
         return modeles;
     }
