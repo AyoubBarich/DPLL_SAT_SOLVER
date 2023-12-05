@@ -5,7 +5,7 @@ public class DPLL {
 
         Stack<Literal> literalStack = new Stack<>();
         System.out.println(literalStack + "1");
-        ArrayList<List<Literal>> modeles = new ArrayList<>();
+        ArrayList<ArrayList<Literal>> modeles = new ArrayList<>();
 
         System.out.println("while1 " + formule.assignedLiteralList.contains(0) + " " + formule.isFormulaSatisfaisaible());
         while ((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)) {
