@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Clause {
     private ArrayList<Literal> literals ;
-    public boolean stasfiable;
+//    public boolean stasfiable;
 
 
     public Clause(ArrayList<Literal> _literals){
@@ -42,16 +42,24 @@ public class Clause {
         return  literals.contains(literal);
     }
 
-    public boolean isSatisfaisable(){
+    public Boolean isSatisfaisable() {
         ArrayList<Literal> allLiterals = literals;
-        for (Literal literal : allLiterals){
-
-            if (literal.getTruthValue() == true){
-                return true;
+        int falseCounter = 0;
+        for (Literal literal : allLiterals) {
+            if (literal.getTruthValue() != null) {
+                if (literal.getTruthValue()) {
+                    return true;
+                } else if ((!literal.getTruthValue()) & (literal.affected())) {
+                    falseCounter++;
+                }
             }
         }
+        if (falseCounter == allLiterals.size()) {
+            return false;
+        } else {
+            return null;
 
-        return false;
+        }
     }
 
     public boolean isMono(){return (this.literals.size() == 1);}

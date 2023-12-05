@@ -49,7 +49,30 @@ public class Tester {
         StandardParser parser = new StandardParser();
         System.out.println(parser.parse("./Inputs/testcnf.cnf"));
     }
+    @Test
+    public void isMonoTest(){
+        Clause clause = new Clause(new ArrayList<>(List.of(x)));
+        Clause clause2 = new Clause(new ArrayList<>(List.of(x,y)));
+        assert(clause.isMono()==true);
+        assert(clause2.isMono()==false);
 
+
+    }
+
+    @Test
+    public void oppositeTest(){
+        assert(x.opposite().equals( _x));
+    }
+
+    @Test
+    public void setTruthValue(){
+        Literal literalTest = new Literal(65);
+        Literal literalTest2 = new Literal(95);
+        literalTest.setTruthValue(false);
+        assert(literalTest.getTruthValue() == false);
+        literalTest2.setTruthValue(true);
+        assert(literalTest2.getTruthValue() == true);
+    }
     @Test
     public void equalTest(){
         Literal k = new Literal(12);
@@ -59,9 +82,9 @@ public class Tester {
 
     @Test
     public void isSatisfaisableTest(){
+        Literal null1 = new Literal(204);
         Literal A = new Literal(9);
         A.setTruthValue(false);
-        System.out.println(A.getTruthValue());
         Literal Y = new Literal(11);
         Y.setTruthValue(true);
         Literal O = new Literal(13);
@@ -72,21 +95,45 @@ public class Tester {
         B.setTruthValue(true);
 
         Clause b = new Clause(new ArrayList<>(List.of(A,Y,O)));
-        Clause g = new Clause(new ArrayList<>(List.of(U,B)));
+        Clause g = new Clause(new ArrayList<>(List.of(null1)));
 
         Formule ilGere = new Formule(new ArrayList<>(List.of(b,g)));
-        System.out.println(ilGere);
-        System.out.println(b.isSatisfaisable());
+        System.out.println(null1.getTruthValue());
+        System.out.println(g);
+        System.out.println(g.isSatisfaisable());
 
     }
 
     @Test
-    public void affectTrurhValueTest(){
+    public void isFormulaSatisfaisableTest(){
+        Literal n = new Literal(101);
+        n.setTruthValue(false);
+        Literal e = new Literal(102);
+        e.setTruthValue(null);
+        Literal i =  new Literal(103);
+        i.setTruthValue(null);
+        Literal h = new Literal(104);
+        h.setTruthValue(true);
 
-        Formule formule1 = new Formule(new ArrayList<>(List.of(tuGeresLaFougere,weLoveCow)));
-        formule1.affectTruthValue(t,true);
-        assert(t.getTruthValue() == true);
-        assert(_t.getTruthValue() == false);
+        Clause non = new Clause(new ArrayList<>(List.of(n,e)));
+        Clause no = new Clause(new ArrayList<>(List.of(i,n,h)));
+
+        Formule nein = new Formule(new ArrayList<>(List.of(no,non)));
+        System.out.println(nein);
+        System.out.println(nein.isFormulaSatisfaisaible());
+
+    }
+
+    @Test
+    public void affectTruthValueTest(){
+
+
+        Formule formulea = new Formule(new ArrayList<>(List.of(tuGeresLaFougere,weLoveCow)));
+        formulea.affectTruthValue(t,false);
+
+        assert(t.getTruthValue()== false);
+        assert(_t.getTruthValue() == true);
+
 
     }
     @Test
@@ -100,26 +147,30 @@ public class Tester {
     @Test
     public void firstSatisfyTest(){
 
-        Clause h = new Clause(new ArrayList<>(List.of(x,_x,x,_t)));
-        Clause i = new Clause(new ArrayList<>(List.of(t,_t,b)));
-        Formule formule2 = new Formule(new ArrayList<>(List.of(h,i)));
+        Clause h = new Clause(new ArrayList<>(List.of(x,_x,_t)));
+        Clause i = new Clause(new ArrayList<>(List.of(t,_t,b,x)));
+        Clause hi = new Clause(new ArrayList<>(List.of(_t,_x,x)));
+        Formule formule2 = new Formule(new ArrayList<>(List.of(h,i,hi)));
 
-        assert(formule2.firstSatisfy().equals(t));
+        assert(formule2.firstSatisfy().equals(x));
+
 
 
     }
     @Test
     public void firstTailTest(){
 
-        Clause h = new Clause(new ArrayList<>(List.of(x,_x,x,x,_t)));
-        Clause i = new Clause(new ArrayList<>(List.of(t,_t,b)));
-        Formule formule2 = new Formule(new ArrayList<>(List.of(h,i)));
+        Clause h = new Clause(new ArrayList<>(List.of(x,_x,_t)));
+        Clause i = new Clause(new ArrayList<>(List.of(t,_t,b,x)));
+        Clause hi = new Clause(new ArrayList<>(List.of(_t,_x,x)));
+        Formule formule2 = new Formule(new ArrayList<>(List.of(h,i,hi)));
+
         assert(formule2.firstFail().equals(t));
 
     }
 
     @Test
-    public void assignTrueFirstFail(){
+    public void assignLiteralFirstFailTest(){
 
         Literal x = new Literal(1);
         Literal _x = new Literal(2);
@@ -129,39 +180,136 @@ public class Tester {
 
 
 
-        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,_x,t)));
-        Clause is = new Clause(new ArrayList<>(List.of(z,_x,t,_z,y)));
-        Clause beauGosse = new Clause(new ArrayList<>(List.of(y,_x,_t)));
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,_x,t,_t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z,x,t,_z,y,_t,_x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y,_x,_t,x)));
         Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
         Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
 
 
-        Literal littest1 = bgOfTheWorld.assignTrueFirstFail();
+        Literal littest1 = bgOfTheWorld.assignLiteralFirstFail(false);
+        System.out.println(littest1);
+        assert(littest1 == z);
+        assert(z.getTruthValue() == false);
+        System.out.println(littest1);
+        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,0,1,1,0));
+        System.out.println("index of 1 " + testList.indexOf(1));
+        System.out.println(bgOfTheWorld.literalList);
+        System.out.println(bgOfTheWorld.assignedLiteralList);
+        assert(bgOfTheWorld.assignedLiteralList.equals(testList));
+        Literal litTest = bgOfTheWorld.assignLiteralFirstFail(false);
+        assert(litTest.equals(y));
+        System.out.println(litTest);
+        System.out.println(y);
+        Literal litest2 = bgOfTheWorld.assignLiteralFirstFail(false);
+        System.out.println(litest2);
+        assert(litest2.equals(t));
+
+    }
+
+    @Test
+    public void assignLiteralFirstTailTest(){
+
+        Literal x = new Literal(1);
+        Literal _x = new Literal(2);
+        Literal z =  new Literal(3);
+        Literal _z = new Literal(4);
+        Literal y = new Literal(5);
+
+
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,_x,t,_t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z,x,t,_z,y,_t,_x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y,_x,_t,x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+
+
+        Literal littest1 = bgOfTheWorld.assignLiteralFirstTail(true);
 
         assert(littest1 == z);
-        assert(z.getTruthValue() == true);
-        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,1,1,0,0));
+        assert(z.getTruthValue()== true);
+        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,0,1,1,0));
+        System.out.println(bgOfTheWorld.literalList);
+        System.out.println(bgOfTheWorld.assignedLiteralList);
         assert(bgOfTheWorld.assignedLiteralList.equals(testList));
-
-
-        Literal litTest = bgOfTheWorld.assignTrueFirstFail();
+        Literal litTest = bgOfTheWorld.assignLiteralFirstTail(true);
         assert(litTest.equals(y));
-        Literal litest2 =bgOfTheWorld.assignTrueFirstFail();
+        System.out.println(bgOfTheWorld.assignedLiteralList);
+        Literal litest2 = bgOfTheWorld.assignLiteralFirstTail(true);
+        System.out.println(litest2);
         assert(litest2.equals(x));
 
+    }
+
+    @Test
+    public void assignLiteralRandomTest() {
+
+        Literal x = new Literal(1);
+        Literal _x = new Literal(2);
+        Literal z = new Literal(3);
+        Literal _z = new Literal(4);
+        Literal y = new Literal(5);
+
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+
+
+        Literal littest1 = bgOfTheWorld.assignLiteralRandom(true);
+
+        assert (littest1 == z);
+        assert (z.getTruthValue()==true);
+        ArrayList<Integer> testList = new ArrayList<>(List.of(1, 0, 0, 0, 0, 1, 1, 0));
+        assert (bgOfTheWorld.assignedLiteralList.equals(testList));
+        Literal litTest = bgOfTheWorld.assignLiteralRandom(true);
+        assert (litTest.equals(y));
+        Literal litTest3 = bgOfTheWorld.assignLiteralRandom(true);
+        Literal liteTest4 = bgOfTheWorld.assignLiteralRandom(true);
 
 
     }
 
     @Test
-    public void isMonoTest(){
-        Clause clause = new Clause(new ArrayList<>(List.of(x)));
-        Clause clause2 = new Clause(new ArrayList<>(List.of(x,y)));
-        assert(clause.isMono()==true);
-        assert(clause2.isMono()==false);
+
+    public void desaffecttruthvaluetest(){
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+        System.out.println(x.getTruthValue());
+
+        bgOfTheWorld.affectTruthValue(x, true);
+        System.out.println(x.getTruthValue());
+        System.out.println(_x.getTruthValue());
+
+        bgOfTheWorld.desaffectTruthValue(x);
+        System.out.println(x.getTruthValue());
 
 
     }
 
+    @Test
+    public void solveFirstFailTest(){
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+
+        DPLL dpll = new DPLL();
+        System.out.println(dpll.solveFirstFail(bgOfTheWorld));
+
+    }
 
 }

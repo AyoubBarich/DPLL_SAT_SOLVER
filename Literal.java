@@ -4,7 +4,7 @@ import java.util.List;
 public class Literal  {
     private int integerValue;
     private   Boolean truthValue;
-    public boolean hasBeenAffected = false;
+    private Boolean hasBeenAffected;
 //    private String variableName;
 
     private LiteralProprety proprety;
@@ -12,12 +12,16 @@ public class Literal  {
     public Literal(int assignedIntegerValue){
 
         this.integerValue = assignedIntegerValue;
-        this.truthValue = assignedIntegerValue%2 !=0;
+
+
+        /*this.truthValue = assignedIntegerValue%2 !=0;*/
 //        this.variableName  = assignedVariableName;
 
     }
 
-
+    public Boolean affected(){
+        return hasBeenAffected;
+    }
     public Boolean getTruthValue() {
         return truthValue;
     }
@@ -32,7 +36,10 @@ public class Literal  {
     public void setIntegerValue(int integerValue) {
         this.integerValue = integerValue;
     }
-    public void  setTruthValue(Boolean b){this.truthValue = b;this.hasBeenAffected=true;}
+    public void  setTruthValue(Boolean b){
+        this.truthValue = b;
+        this.hasBeenAffected = true;
+    }
 
     @Override
     public boolean equals(Object obj) {
