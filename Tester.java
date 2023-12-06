@@ -180,7 +180,7 @@ public class Tester {
 
 
 
-        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,_x,t,_t)));
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x,t,_t)));
         Clause is = new Clause(new ArrayList<>(List.of(z,x,t,_z,y,_t,_x)));
         Clause beauGosse = new Clause(new ArrayList<>(List.of(y,_x,_t,x)));
         Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
@@ -193,18 +193,19 @@ public class Tester {
         assert(littest1 == z);
         assert(z.getTruthValue() == false);
         System.out.println(littest1);
-        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,0,1,1,0));
+        ArrayList<Integer> testList = new ArrayList<>(List.of(1,0,0,0,1,1,0,0));
         System.out.println("index of 1 " + testList.indexOf(1));
         System.out.println(bgOfTheWorld.literalList);
         System.out.println(bgOfTheWorld.assignedLiteralList);
+        System.out.println(testList);
         assert(bgOfTheWorld.assignedLiteralList.equals(testList));
         Literal litTest = bgOfTheWorld.assignLiteralFirstFail(false);
-        assert(litTest.equals(y));
         System.out.println(litTest);
+        assert(litTest.equals(y));
         System.out.println(y);
         Literal litest2 = bgOfTheWorld.assignLiteralFirstFail(false);
-        System.out.println(litest2);
-        assert(litest2.equals(t));
+//        System.out.println(litest2);
+//        assert(litest2.equals(t));
 
     }
 

@@ -59,16 +59,34 @@ public class Formule {
     }
 
     public ArrayList<Literal> getPureLiterals(){
+//        ArrayList<Literal> pureLiteral = new ArrayList<>();
+//        Literal litNull = new Literal(0);
+//        pureLiteral.add(litNull);
+//        ArrayList<Literal> literals = this.getLiteralsFromFormule();
+//        for (Literal literal : literals) {
+//                Literal opposite = literal.getIntegerValue() % 2 == 0 ? new Literal(literal.getIntegerValue()-1) : new Literal( literal.getIntegerValue() +1 );
+//                if (!literals.contains(opposite)){
+//                    pureLiteral.add(literal);
+//                }
+//            }
+//
+//        return pureLiteral;
         ArrayList<Literal> pureLiteral = new ArrayList<>();
         Literal litNull = new Literal(0);
         pureLiteral.add(litNull);
         ArrayList<Literal> literals = this.getLiteralsFromFormule();
+
         for (Literal literal : literals) {
-                Literal opposite = literal.getIntegerValue() % 2 == 0 ? new Literal(literal.getIntegerValue()-1) : new Literal( literal.getIntegerValue() +1 );
-                if (!literals.contains(opposite)){
-                    pureLiteral.add(literal);
+
+                for (Clause clause : this.getClauses()) {
+
+                    if ((clause.isSatisfaisable() == null) & (!literals.contains(literal.opposite())) & (!pureLiteral.contains(literal))) {
+                        pureLiteral.add(literal);
+                    }
+
                 }
             }
+
 
         return pureLiteral;
     }
@@ -147,10 +165,7 @@ public class Formule {
                 int index = literalsInFormula.indexOf(literal);
                 for (Clause clause : getClauses()) {
 
-                    if (clause.contains(literal)) {
-                        counter.set(index, counter.get(index) + 1);
-                    }
-                    if(clause.contains(literal.opposite())){
+                    if((clause.contains(literal.opposite()) & (clause.isSatisfaisable() == null))){
                         counter.set(index, counter.get(index) + 1);
                     }
                 }
@@ -172,7 +187,7 @@ public class Formule {
             if((literal.getIntegerValue()%2 == 1) & (assignedLiteralList.get(literalList.indexOf(literal)) == 0)){
             int index = this.literalList.indexOf(literal);
             for (Clause clause : getClauses()) {
-                if (clause.contains(literal.opposite())) {
+                if ((clause.contains(literal.opposite())) & (clause.isSatisfaisable() == null)) {
                     counter.add(index, counter.get(index) + 1);
                 }
             }
@@ -196,18 +211,22 @@ public class Formule {
             }
         }
 
-        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
 
-            pureLiterals.get(1).setTruthValue(condition);
-            changeValue(pureLiterals.get(1));
-            return(pureLiterals.get(1));
+        if(pureLiterals.size() != 1 ){
+
+            if (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0) {
+
+                pureLiterals.get(1).setTruthValue(condition);
+                changeValue(pureLiterals.get(1));
+                return (pureLiterals.get(1));
+            }
         }
-        else {
+
             Literal litFail = this.firstFail();
             this.affectTruthValue(litFail,condition);
             return (litFail);
         }
-    }
+
 
 
 
@@ -216,7 +235,7 @@ public class Formule {
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
 
         for (Clause clause : clauses) {
-            if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)) {
+            if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0) & (clause.isSatisfaisable() == null)) {
                 this.affectTruthValue(clause.getliteralFromMonoClause(), condition);
                 return clause.getliteralFromMonoClause();
             }
