@@ -151,6 +151,7 @@ public class Formule {
 //    }
 
 
+
     public Literal firstSatisfy() {
         ArrayList<Integer> counter = new ArrayList<>();
         ArrayList<Literal> literalsInFormula = getLiteralsFromFormule();
@@ -241,25 +242,29 @@ public class Formule {
             }
 
         }
-        if((pureLiterals.size() != 1) & (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0)){
 
-            pureLiterals.get(1).setTruthValue(condition);
-            changeValue(pureLiterals.get(1));
-            return(pureLiterals.get(1));
+        if(pureLiterals.size() != 1 ){
+
+            if (this.assignedLiteralList.get(this.literalList.indexOf(pureLiterals.get(1))) == 0) {
+
+                pureLiterals.get(1).setTruthValue(condition);
+                changeValue(pureLiterals.get(1));
+                return (pureLiterals.get(1));
+            }
         }
-        else {
-            Literal litSat = this.firstSatisfy();
-            this.affectTruthValue(litSat,condition);
-            return litSat;
-        }
+
+        Literal litSat = this.firstSatisfy();
+        this.affectTruthValue(litSat,condition);
+        return (litSat);
     }
+
 
     public Literal assignLiteralRandom(boolean condition){
 
         ArrayList<Clause> clauses = this.getClauses();
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
         for (Clause clause : clauses) {
-            if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0)) {
+            if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0) & (clause.isSatisfaisable() == null)) {
                 this.affectTruthValue(clause.getliteralFromMonoClause(), condition);
                 return clause.getliteralFromMonoClause();
             }
@@ -269,17 +274,31 @@ public class Formule {
             pureLiterals.get(1).setTruthValue(condition);
             changeValue(pureLiterals.get(1));
             return (pureLiterals.get(1));
-        }
-        else {
-            for (Literal literal : literalList) {
-                if(this.assignedLiteralList.get(this.literalList.indexOf(literal)) == 0) {
-                    this.affectTruthValue(literal, condition);
-                    return literal;
+
+//            for (Literal literal : literalList) {
+//                if(this.assignedLiteralList.get(this.literalList.indexOf(literal)) == 0) {
+//                    this.affectTruthValue(literal, condition);
+//                    return literal;
+//                }
+            }
+
+            for (Clause clause : this.clauses) {
+
+                if (clause.isSatisfaisable() == null) {
+                    for (Literal literal : literalList) {
+                        if (this.assignedLiteralList.get(this.literalList.indexOf(literal)) == 0) {
+                         this.affectTruthValue(literal, condition);
+                         return literal;
+                        }
+
+                    }
                 }
             }
+            return new Literal(0);
         }
-        return new Literal(0);
-    }
+
+
+
 
 
     public ArrayList<Integer> vecteurEtatClause(){

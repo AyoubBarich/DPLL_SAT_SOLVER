@@ -313,4 +313,33 @@ public class Tester {
 
     }
 
+    @Test
+    public void solveRandomTest(){
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+
+        DPLL dpll = new DPLL();
+        System.out.println(dpll.solveRandom(bgOfTheWorld));
+
+    }
+
+    @Test
+    public void solveFirstSatisfyTest(){
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
+        System.out.println(bgOfTheWorld);
+
+        DPLL dpll = new DPLL();
+        System.out.println(dpll.solveFirstSatisfy(bgOfTheWorld));
+
+    }
 }
