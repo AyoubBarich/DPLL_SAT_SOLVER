@@ -4,16 +4,16 @@ import java.nio.file.Path;
 
 public class NQueenGenrator {
 
-    static  int N ;
+    static int N ;
     static int clauses = 0;
     static char[][] board = new char[N][N];
     static FileWriter fileWriter;
     public NQueenGenrator(int n){
         N = n;
-    }
-    static {
+
         try {
-            fileWriter = new FileWriter(String.format(".//QueenGen/coding%d.cnf",N));
+            System.out.println(N);
+            fileWriter = new FileWriter("./QueenGen/coding"+N+".cnf");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class NQueenGenrator {
         return (c - 1) % N;
     }
 
-    void  generate() throws IOException {
+    public void generate() throws IOException {
         int i, j, q, k;
 
         for (k = 0; k < N; k++) {
@@ -78,6 +78,9 @@ public class NQueenGenrator {
 
         fileWriter.close();
 
+    }
+    public  String getFilePath(){
+        return  String.format("./QueenGen/coding%d.cnf",N);
     }
 
 }

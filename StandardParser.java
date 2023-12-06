@@ -33,7 +33,7 @@ public final class StandardParser implements Parser {
         }
 
     private static int transformLiteralToIndex(int literal){
-        return literal >= 0 ? 2*literal : (-literal*2) -1 ;
+        return literal <= 0 ? 2*-literal : (literal*2) -1 ;
     }
 
 

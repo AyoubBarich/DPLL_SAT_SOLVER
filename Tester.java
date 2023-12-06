@@ -342,4 +342,30 @@ public class Tester {
         System.out.println(dpll.solveFirstSatisfy(bgOfTheWorld));
 
     }
+
+    @Test
+    public void solveFirstSatisfyUniqueTest(){
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_y)));
+        Clause is = new Clause(new ArrayList<>(List.of(z)));
+        Clause bg =  new Clause(new ArrayList<>(List.of(_x)));
+
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg)));
+        System.out.println(bgOfTheWorld);
+
+        DPLL dpll = new DPLL();
+        System.out.println(dpll.solveFirstSatisfyUnique(bgOfTheWorld));
+
+    }
+    @Test
+    public void  QueenTest() throws IOException {
+        NQueenGenrator nQueenGenrator = new NQueenGenrator(9);
+        nQueenGenrator.generate();
+        System.out.println(nQueenGenrator.getFilePath());
+        StandardParser parser = new StandardParser();
+         Formule formule6 = parser.parse(nQueenGenrator.getFilePath());
+         DPLL dpll1 = new DPLL();
+        System.out.println(dpll1.solveFirstSatisfy(formule6));
+
+    }
 }
