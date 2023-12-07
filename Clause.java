@@ -29,7 +29,6 @@ public class Clause {
 
     }
 */
-
     public ArrayList<Literal> getLiterals() {
         return literals;
     }
@@ -43,14 +42,17 @@ public class Clause {
     }
 
     public Boolean isSatisfaisable() {
+        System.out.println(this);
         ArrayList<Literal> allLiterals = literals;
         int falseCounter = 0;
         for (Literal literal : allLiterals) {
+
             if (literal.getTruthValue() != null) {
                 if (literal.getTruthValue()) {
                     return true;
-                } else if ((!literal.getTruthValue()) & (literal.affected())) {
+                } else if (!literal.getTruthValue()) {
                     falseCounter++;
+                    System.out.println(false);
                 }
             }
         }
@@ -62,11 +64,51 @@ public class Clause {
         }
     }
 
-    public boolean isMono(){return (this.literals.size() == 1);}
+    public boolean isMono(){
+        if (this.literals.size() == 1){
+            return true;
+        }
+        else{
+            int counter = 0;
+            for (Literal literals :this.getLiterals()){
+                if (literals.getTruthValue() == null){
+                    counter ++;
+                }
+            }
+            if (counter == 1){
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public Literal getLiteralFromNewMonoClause(){
+        Literal litMono = new Literal(0);
+        for (Literal literal : this.getLiterals()){
+            if (literal.getTruthValue()==null){
+                litMono = literal;
+            }
+        }
+        return litMono;
+    }
     public int size(){return this.literals.size();}
 
     public Literal getliteralFromMonoClause(){
-        return this.getLiterals().get(0);
+        Literal litMono = new Literal(0);
+        if (this.size() ==1) {
+            return this.getLiterals().get(0);
+        }else {
+
+            for (Literal literal : this.getLiterals()) {
+                if (literal.getTruthValue() == null) {
+
+                    return literal;
+
+                }
+            }
+        }
+        return litMono;
+
     }
 
     @Override

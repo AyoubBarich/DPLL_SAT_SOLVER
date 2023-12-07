@@ -5,6 +5,7 @@ public class Literal  {
     private int integerValue;
     private   Boolean truthValue;
     private Boolean hasBeenAffected;
+    private int affectationCounter;
 //    private String variableName;
 
     private LiteralProprety proprety;
@@ -18,7 +19,7 @@ public class Literal  {
 //        this.variableName  = assignedVariableName;
 
     }
-
+    public int getAffectationCounter(){ return affectationCounter;}
     public Boolean affected(){
         return hasBeenAffected;
     }
@@ -39,6 +40,7 @@ public class Literal  {
     public void  setTruthValue(Boolean b){
         this.truthValue = b;
         this.hasBeenAffected = true;
+        this.affectationCounter ++;
     }
 
     @Override
@@ -55,6 +57,8 @@ public class Literal  {
     public Literal getClone(){
         return new Literal(this.integerValue);
     }
+
+    public void zeroCounter(){ this.affectationCounter = 0;}
 
     public Literal opposite(){
         if (this.integerValue % 2 == 0){

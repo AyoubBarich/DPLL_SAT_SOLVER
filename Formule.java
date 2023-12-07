@@ -97,11 +97,20 @@ public class Formule {
         int trueCounter = 0;
 
         for (Clause clause : allClauses){
+            System.out.println(this.literalList);
+            System.out.println(clause);
+
+
             if(clause.isSatisfaisable() != null) {
+
+
                 if (clause.isSatisfaisable().equals(false)) {
+                    System.out.println("clause fause");
                     return false;
                 } else {
+                    System.out.println("clause vraie");
                     trueCounter ++;
+
                 }
             }
 
@@ -115,12 +124,14 @@ public class Formule {
     public void desaffectTruthValue(Literal literal){
         literal.setTruthValue(null);
         this.changeValueNoMoreAffected(literal);
+        literal.zeroCounter();
         Literal opposite = literal.opposite();
 
         if(this.literalList.contains(opposite)){
             Literal opo = literalList.get(literalList.indexOf(opposite));
             opo.setTruthValue(null);
             this.changeValueNoMoreAffected(opo);
+            opo.zeroCounter();
         }
     }
 
@@ -155,7 +166,8 @@ public class Formule {
     public Literal firstSatisfy() {
         ArrayList<Integer> counter = new ArrayList<>();
         ArrayList<Literal> literalsInFormula = getLiteralsFromFormule();
-        for (int i = 0; i <= literalsInFormula.size(); i++) {
+
+        for (int i = 0; i < literalsInFormula.size(); i++) {
             counter.add(0);
 
         }
@@ -163,11 +175,14 @@ public class Formule {
 
             if (assignedLiteralList.get(literalList.indexOf(literal)) == 0 ){
 
+
                 int index = literalsInFormula.indexOf(literal);
+
                 for (Clause clause : getClauses()) {
 
-                    if((clause.contains(literal.opposite()) & (clause.isSatisfaisable() == null))){
-                        counter.set(index, counter.get(index) + 1);
+                    if(((clause.contains(literal.opposite()) | clause.contains(literal)) & (clause.isSatisfaisable() == null))){
+                        counter.set(index , counter.get(index) + 1);
+
                     }
                 }
             }
@@ -236,12 +251,22 @@ public class Formule {
         ArrayList<Literal> pureLiterals = this.getPureLiterals();
 
         for (Clause clause : clauses) {
-            if (clause.isMono() & (this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0) & (clause.isSatisfaisable() == null)) {
-                this.affectTruthValue(clause.getliteralFromMonoClause(), condition);
-                return clause.getliteralFromMonoClause();
+
+            if (clause.isMono() == true) {
+
+                if ((this.assignedLiteralList.get(this.literalList.indexOf(clause.getliteralFromMonoClause())) == 0) & (clause.isSatisfaisable() == null) ){
+
+                    Literal monolit = clause.getliteralFromMonoClause();
+                    this.affectTruthValue(monolit, condition);
+                    System.out.println("mono");
+
+                    return monolit;
+
+                    }
+                }
             }
 
-        }
+
 
         if(pureLiterals.size() != 1 ){
 
@@ -249,12 +274,15 @@ public class Formule {
 
                 pureLiterals.get(1).setTruthValue(condition);
                 changeValue(pureLiterals.get(1));
+                System.out.println("pur");
                 return (pureLiterals.get(1));
             }
         }
 
         Literal litSat = this.firstSatisfy();
+
         this.affectTruthValue(litSat,condition);
+        System.out.println("else");
         return (litSat);
     }
 
@@ -328,11 +356,13 @@ public class Formule {
         return vector;
     }
 
-    public Literal getMono(){
+    public ArrayList<Clause> getMono(){
+        ArrayList<Clause> mono = new ArrayList<>();
         for (Clause clause :this.getClauses()){
-            if (clause.isMono()){return  clause.getliteralFromMonoClause();}
+            if (clause.isMono()){
+                mono.add(clause);}
         }
-        return null;
+        return mono;
 
     }
 

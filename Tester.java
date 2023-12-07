@@ -11,6 +11,8 @@ public class Tester {
     Literal _z = new Literal(4);
     Literal y = new Literal(5);
     Literal _y = new Literal(6);
+    Literal w = new Literal(7);
+    Literal _w = new Literal(8);
     Clause un = new Clause(new ArrayList<>(List.of(x,z,_y)));
     Clause deux = new Clause(new ArrayList<>(List.of(z,x,y)));
     Clause trois = new Clause(7);
@@ -55,6 +57,8 @@ public class Tester {
         Clause clause2 = new Clause(new ArrayList<>(List.of(x,y)));
         assert(clause.isMono()==true);
         assert(clause2.isMono()==false);
+        y.setTruthValue(false);
+        assert(clause2.isMono()==true);
 
 
     }
@@ -102,6 +106,43 @@ public class Tester {
         System.out.println(g);
         System.out.println(g.isSatisfaisable());
 
+    }
+    @Test
+    public void isClauseSatisfaisableTest(){
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_z)));
+        _x.setTruthValue(false);
+        _z.setTruthValue(true);
+        System.out.println(Ayoub.isSatisfaisable());
+//        Clause is = new Clause(new ArrayList<>(List.of(_x,_y)));
+//        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
+//        Clause really =  new Clause(new ArrayList<>(List.of(_y,_w)));
+//        Clause truelly = new Clause(new ArrayList<>(List.of(_z,_w)));
+//        Clause isnt =  new Clause(new ArrayList<>(List.of(y,w)));
+//        Clause it =  new Clause(new ArrayList<>(List.of(_x,_w)));
+//        Clause bb =  new Clause(new ArrayList<>(List.of(_y,_z)));
+//        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg, really, truelly, isnt, it, bb)));
+//        System.out.println(bgOfTheWorld);
+//
+//        System.out.println(bgOfTheWorld);
+//        System.out.println(bgOfTheWorld.literalList);
+//        System.out.println(bgOfTheWorld.firstSatisfy());
+//        bgOfTheWorld.affectTruthValue(z, true);
+//        System.out.println(z +" "+z.getTruthValue());
+//        System.out.println(_z +" "+_z.getTruthValue());
+//        System.out.println(bgOfTheWorld.firstSatisfy());
+//        bgOfTheWorld.affectTruthValue(_y, true);
+//        System.out.println(_y +" "+_y.getTruthValue());
+//        System.out.println(y +" "+y.getTruthValue());
+//        System.out.println(bgOfTheWorld.firstSatisfy());
+//        System.out.println("Ayoub " +Ayoub + Ayoub.isSatisfaisable());
+//        System.out.println("is " + is +is.isSatisfaisable());
+//        System.out.println("bg " + bg+ bg.isSatisfaisable());
+//        System.out.println("really "+really +really.isSatisfaisable());
+//        System.out.println("truelly" +truelly+ truelly.isSatisfaisable());
+//        System.out.println("isnt "+isnt + isnt.isSatisfaisable());
+//        System.out.println("it " +it+it.isSatisfaisable());
+//        System.out.println("bb " +bb+ bb.isSatisfaisable());
+//        System.out.println("bgOfTheWorld " +bgOfTheWorld+ bgOfTheWorld.isFormulaSatisfaisaible());
     }
 
     @Test
@@ -155,6 +196,29 @@ public class Tester {
         assert(formule2.firstSatisfy().equals(x));
 
 
+
+    }
+
+    @Test
+    public void firstSatisfyTest2(){
+
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_y)));
+        Clause is = new Clause(new ArrayList<>(List.of(_x,_z)));
+        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
+        Clause really =  new Clause(new ArrayList<>(List.of(_z,_t)));
+        Clause truelly = new Clause(new ArrayList<>(List.of(_y,_t)));
+        Clause isnt =  new Clause(new ArrayList<>(List.of(z,t)));
+        Clause it =  new Clause(new ArrayList<>(List.of(_x,_t)));
+        Clause bb =  new Clause(new ArrayList<>(List.of(_z,_y)));
+
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg, really, truelly, isnt, it, bb)));
+        System.out.println(bgOfTheWorld);
+        System.out.println(bgOfTheWorld.literalList);
+        System.out.println(bgOfTheWorld.firstSatisfy());
+        bgOfTheWorld.affectTruthValue(z, true);
+        System.out.println(bgOfTheWorld.firstSatisfy());
+        bgOfTheWorld.affectTruthValue(_y, true);
+        System.out.println(bgOfTheWorld.firstSatisfy());
 
     }
     @Test
@@ -346,26 +410,94 @@ public class Tester {
     @Test
     public void solveFirstSatisfyUniqueTest(){
 
-        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_y)));
-        Clause is = new Clause(new ArrayList<>(List.of(z)));
-        Clause bg =  new Clause(new ArrayList<>(List.of(_x)));
-
-        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg)));
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_z)));
+        Clause is = new Clause(new ArrayList<>(List.of(_x,_y)));
+        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
+        Clause really =  new Clause(new ArrayList<>(List.of(_y,_w)));
+        Clause truelly = new Clause(new ArrayList<>(List.of(_z,_w)));
+        Clause isnt =  new Clause(new ArrayList<>(List.of(y,w)));
+        Clause it =  new Clause(new ArrayList<>(List.of(_x,_w)));
+        Clause bb =  new Clause(new ArrayList<>(List.of(_y,_z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg, really, truelly, isnt, it)));
         System.out.println(bgOfTheWorld);
 
         DPLL dpll = new DPLL();
         System.out.println(dpll.solveFirstSatisfyUnique(bgOfTheWorld));
+//        System.out.println(bgOfTheWorld.assignedLiteralList);
+//        System.out.println(bgOfTheWorld);
+//        System.out.println(bgOfTheWorld.literalList);
+//        System.out.println(bgOfTheWorld.firstSatisfy());
+//        System.out.println(z +" "+z.getTruthValue());
+//        System.out.println(_z +" "+_z.getTruthValue());
+//        System.out.println(_y +" "+_y.getTruthValue());
+//        System.out.println(y +" "+y.getTruthValue());
+//        System.out.println(bgOfTheWorld.firstSatisfy());
+//        System.out.println("Ayoub " +Ayoub + Ayoub.isSatisfaisable());
+//        System.out.println("is " + is +is.isSatisfaisable());
+//        System.out.println("bg " + bg+ bg.isSatisfaisable());
+//        System.out.println("really "+really +really.isSatisfaisable());
+//        System.out.println("truelly" +truelly+ truelly.isSatisfaisable());
+//        System.out.println("isnt "+isnt + isnt.isSatisfaisable());
+//        System.out.println("it " +it+it.isSatisfaisable());
+//        System.out.println("bb " +bb+ bb.isSatisfaisable());
+//        System.out.println("bgOfTheWorld " +bgOfTheWorld+ bgOfTheWorld.isFormulaSatisfaisaible());
 
     }
     @Test
     public void  QueenTest() throws IOException {
-        NQueenGenrator nQueenGenrator = new NQueenGenrator(9);
-        nQueenGenrator.generate();
-        System.out.println(nQueenGenrator.getFilePath());
+        QueenGeneratorCNF queenGeneratorCNF = new QueenGeneratorCNF();
+        Queen queen = new Queen(4);
+        NQueenGenrator nQueenGenrator =new NQueenGenrator(4);
+        DPLL dpll2 =new DPLL();
         StandardParser parser = new StandardParser();
-         Formule formule6 = parser.parse(nQueenGenrator.getFilePath());
-         DPLL dpll1 = new DPLL();
-        System.out.println(dpll1.solveFirstSatisfy(formule6));
+
+        nQueenGenrator.generate();
+        Formule formule6 = parser.parse(nQueenGenrator.getFilePath());
+        Formule formule7 = queen.getDamesFormule();
+        System.out.println(formule6);
+        System.out.println(dpll2.solveFirstSatisfyUnique(formule6));
+
+
+    }
+    @Test
+    public void affctedCounterTest(){
+        Literal x = new Literal(1);
+        Literal _x = new Literal(2);
+        Literal z = new Literal(3);
+        Literal _z = new Literal(4);
+        Literal y = new Literal(5);
+
+        Clause clause8 = new Clause(new ArrayList<>(List.of(_x,_z,y,x)));;
+
+        Formule formule5 = new Formule(new ArrayList<>(List.of(clause8)));
+
+        System.out.println(x.getAffectationCounter());
+        formule5.affectTruthValue(x,true);
+        System.out.println(x.getAffectationCounter());
+        System.out.println(_x.getAffectationCounter());
+        formule5.desaffectTruthValue(x);
+        System.out.println(x.getAffectationCounter());
+        System.out.println(_x.getAffectationCounter());
+
+    }
+
+    @Test
+    public void monoChoiceTest(){
+        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_z)));
+        Clause is = new Clause(new ArrayList<>(List.of(_x,_y)));
+        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
+        Clause really =  new Clause(new ArrayList<>(List.of(_y,_w)));
+        Clause truelly = new Clause(new ArrayList<>(List.of(_z,_w)));
+        Clause isnt =  new Clause(new ArrayList<>(List.of(y,w)));
+        Clause it =  new Clause(new ArrayList<>(List.of(_x,_w)));
+        Clause bb =  new Clause(new ArrayList<>(List.of(_y,_z)));
+        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg, really, truelly, isnt, it)));
+
+        Literal lit1 = bgOfTheWorld.assignLiteralFirstTail(true);
+        System.out.println(lit1);
+        Literal lit2 = bgOfTheWorld.assignLiteralFirstTail(true);
+        Literal lit3 = bgOfTheWorld.assignLiteralFirstTail(true);
+        Literal lit4 =bgOfTheWorld.assignLiteralFirstTail(true);
 
     }
 }
