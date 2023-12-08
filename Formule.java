@@ -97,12 +97,12 @@ public class Formule {
         int trueCounter = 0;
 
         for (Clause clause : allClauses){
-            System.out.println(this.literalList);
+
             System.out.println(clause);
+            System.out.println(clause.isSatisfaisable());
 
 
             if(clause.isSatisfaisable() != null) {
-
 
                 if (clause.isSatisfaisable().equals(false)) {
                     System.out.println("clause fause");
@@ -118,6 +118,8 @@ public class Formule {
         if (trueCounter == allClauses.size()){
             return true;
         }else{
+
+
             return null;
         }
     }
@@ -373,7 +375,13 @@ public class Formule {
         int index = this.clauses.indexOf(clause);
         return index ;
     }
-
+    public ArrayList<Boolean> getlitValueT(){
+        ArrayList<Boolean> litValue = new ArrayList<>();
+        for (Literal lit : this.literalList) {
+            litValue.add(lit.getTruthValue());
+        }
+        return litValue;
+    }
 
     @Override
     public String toString() {

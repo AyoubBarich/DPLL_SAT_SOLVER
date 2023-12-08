@@ -42,15 +42,20 @@ public class Clause {
     }
 
     public Boolean isSatisfaisable() {
-        System.out.println(this);
-        ArrayList<Literal> allLiterals = literals;
+
+        ArrayList<Literal> allLiterals = this.getLiterals();
         int falseCounter = 0;
+        System.out.println(this);
         for (Literal literal : allLiterals) {
+            System.out.println(literal);
+            System.out.println("literal tv " + literal.getTruthValue());
 
             if (literal.getTruthValue() != null) {
                 if (literal.getTruthValue()) {
+                    literal.setTruthValue(literal.getTruthValue());
                     return true;
                 } else if (!literal.getTruthValue()) {
+                    literal.setTruthValue(literal.getTruthValue());
                     falseCounter++;
                     System.out.println(false);
                 }
@@ -59,6 +64,12 @@ public class Clause {
         if (falseCounter == allLiterals.size()) {
             return false;
         } else {
+            System.out.println("Clause null");
+            System.out.println(this.getLiterals());
+            for (Literal lit : this.getLiterals()){
+                System.out.println("lit" +lit+ "  "+ lit.getTruthValue());
+
+            }
             return null;
 
         }

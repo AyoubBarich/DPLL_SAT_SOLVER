@@ -291,6 +291,7 @@ public class DPLL {
         ArrayList<HashMap<Boolean, ArrayList<Literal>>> modeles = new ArrayList<>();
         System.out.println(formule.literalList);
         System.out.println(formule.assignedLiteralList);
+        System.out.println(formule.getlitValueT());
 
         while ((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)) {
 
@@ -300,9 +301,11 @@ public class DPLL {
             System.out.println("assignedLiteral " + assignedLiteral);
             System.out.println("assignedLiteral " + assignedLiteral.getTruthValue());
             System.out.println(formule.assignedLiteralList);
+            System.out.println(formule.getlitValueT());
 
             literalStack.push(assignedLiteral);
             System.out.println("literalStack " + literalStack);
+            System.out.println("formule.isFormulaSatisfaisaible()"+" " + formule.isFormulaSatisfaisaible());
             System.out.println("formule.isFormulaSatisfaisaible() != null  " + (formule.isFormulaSatisfaisaible() != null));
             if (formule.isFormulaSatisfaisaible() != null) {
                 System.out.println("a");
@@ -333,6 +336,7 @@ public class DPLL {
                 break;
             }
         }
+
 
         System.out.println("c");
         while (!literalStack.isEmpty()){

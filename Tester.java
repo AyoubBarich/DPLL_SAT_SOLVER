@@ -111,8 +111,9 @@ public class Tester {
     public void isClauseSatisfaisableTest(){
         Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_z)));
         _x.setTruthValue(false);
-        _z.setTruthValue(true);
-        System.out.println(Ayoub.isSatisfaisable());
+        _z.setTruthValue(false);
+        System.out.println("sat" +Ayoub.isSatisfaisable());
+
 //        Clause is = new Clause(new ArrayList<>(List.of(_x,_y)));
 //        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
 //        Clause really =  new Clause(new ArrayList<>(List.of(_y,_w)));
@@ -147,8 +148,9 @@ public class Tester {
 
     @Test
     public void isFormulaSatisfaisableTest(){
+
         Literal n = new Literal(101);
-        n.setTruthValue(false);
+        n.setTruthValue(true);
         Literal e = new Literal(102);
         e.setTruthValue(null);
         Literal i =  new Literal(103);
@@ -160,8 +162,12 @@ public class Tester {
         Clause no = new Clause(new ArrayList<>(List.of(i,n,h)));
 
         Formule nein = new Formule(new ArrayList<>(List.of(no,non)));
+        System.out.println("a");
+        System.out.println(nein.getLiteralsFromFormule());
+        System.out.println(nein.literalList);
         System.out.println(nein);
         System.out.println(nein.isFormulaSatisfaisaible());
+        System.out.println();
 
     }
 
@@ -171,10 +177,11 @@ public class Tester {
 
         Formule formulea = new Formule(new ArrayList<>(List.of(tuGeresLaFougere,weLoveCow)));
         formulea.affectTruthValue(t,false);
+        formulea.affectTruthValue(o,true);
 
-        assert(t.getTruthValue()== false);
+        assert(t.getTruthValue() == false);
         assert(_t.getTruthValue() == true);
-
+        System.out.println(formulea.isFormulaSatisfaisaible());
 
     }
     @Test
