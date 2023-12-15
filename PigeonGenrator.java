@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class PigeonGenrator {
 
-
+    int n;
     public PigeonGenrator(int n) throws IOException {
 
-
+        this.n = n;
         int i, k;  // pigeons i, k
         int j;     // hole j
         System.out.println("Number of pigeon holes");
@@ -32,6 +32,9 @@ public class PigeonGenrator {
                     fileWriter.write(String.format("-%d -%d 0\n", n*(i-1)+j, n*(k-1)+j));
 
         fileWriter.close();
+    }
+    public  String getFilePath(){
+        return  String.format("./Pigeon/Pigeon%d.cnf", n);
     }
 
 }

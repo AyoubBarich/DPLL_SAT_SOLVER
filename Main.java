@@ -43,24 +43,37 @@ public class Main {
 
             if (ent2 == 1){
                 if (symb2 == "a"){
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     System.out.println(dpll.solveFirstSatisfyUnique(formuleDame));
+                    timer_dico.print_time_past();
+
                 }
                 else{
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     dpll.solveFirstSatisfyUnique(formuleDame);
+                    timer_dico.print_time_past();
                 }
             } else if (ent2 == 2) {
                 if (symb2 == "a"){
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     dpll.solveFirstFailUnique(formuleDame);
+                    timer_dico.print_time_past();
                 }
                 else{
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     dpll.solveFirstFail(formuleDame);
+                    timer_dico.print_time_past();
                 }
             }else{
                 if (symb2 == "a"){
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     dpll.solveRandomUnique(formuleDame);
+                    timer_dico.print_time_past();
                 }
                 else{
+                    Timer timer_dico = new Timer("DPLL Queen start");
                     dpll.solveRandom(formuleDame);
+                    timer_dico.print_time_past();
                 }
             }
 
@@ -71,31 +84,43 @@ public class Main {
             Scanner choix4 = new Scanner(System.in);
             int nbPigeonniers = choix4.nextInt();
 
-            NQueenGenrator dames = new NQueenGenrator(nbPigeonniers);
+           PigeonGenrator pigeonGenrator = new PigeonGenrator(nbPigeonniers);
 
             StandardParser parser1 = new StandardParser();
-            Formule formulePigeon = parser1.parse(dames.getFilePath());
+            Formule formulePigeon = parser1.parse(pigeonGenrator.getFilePath());
 
             if (ent2 == 1){
                 if (symb2 == "a"){
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
                     System.out.println(dpll.solveFirstSatisfyUnique(formulePigeon));
+                    timer_dico.print_time_past();
                 }
                 else{
-                    dpll.solveFirstSatisfyUnique(formulePigeon);
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
+                    System.out.println(dpll.solveFirstSatisfyUnique(formulePigeon));
+                    timer_dico.print_time_past();
                 }
             } else if (ent2 == 2) {
                 if (symb2 == "a"){
-                    dpll.solveFirstFailUnique(formulePigeon);
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
+                    System.out.println(dpll.solveFirstFailUnique(formulePigeon));
+                    timer_dico.print_time_past();
                 }
                 else{
-                    dpll.solveFirstFail(formulePigeon);
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
+                    System.out.println(dpll.solveFirstFail(formulePigeon));
+                    timer_dico.print_time_past();
                 }
             }else{
                 if (symb2 == "a"){
-                    dpll.solveRandomUnique(formulePigeon);
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
+                    System.out.println(dpll.solveRandomUnique(formulePigeon));
+                    timer_dico.print_time_past();
                 }
                 else{
-                    dpll.solveRandom(formulePigeon);
+                    Timer timer_dico = new Timer("DPLL Pigeon start");
+                    System.out.println(dpll.solveRandom(formulePigeon));
+                    timer_dico.print_time_past();
                 }
             }
 
@@ -103,6 +128,25 @@ public class Main {
 
 
         }
+    private static class Timer {
+        long startTime ;
+        String name ;
+
+        public Timer(String name) {
+            startTime = System.currentTimeMillis();
+            this.name = name;
+        }
+
+        public long time_past() {
+            return System.currentTimeMillis() - startTime;
+        }
+
+        public void print_time_past() {
+            String message = String.format("Timer %s : %f sec. past", name, ((double) time_past()) / 1000);
+            System.out.println(message);
+        }
+
+    }
 
     }
 

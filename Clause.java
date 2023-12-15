@@ -45,10 +45,10 @@ public class Clause {
 
         ArrayList<Literal> allLiterals = this.getLiterals();
         int falseCounter = 0;
-        System.out.println(this);
+//        System.out.println(this);
         for (Literal literal : allLiterals) {
-            System.out.println(literal);
-            System.out.println("literal tv " + literal.getTruthValue());
+//            System.out.println(literal);
+//            System.out.println("literal tv " + literal.getTruthValue());
 
             if (literal.getTruthValue() != null) {
                 if (literal.getTruthValue()) {
@@ -57,17 +57,17 @@ public class Clause {
                 } else if (!literal.getTruthValue()) {
                     literal.setTruthValue(literal.getTruthValue());
                     falseCounter++;
-                    System.out.println(false);
+//                    System.out.println(false);
                 }
             }
         }
         if (falseCounter == allLiterals.size()) {
             return false;
         } else {
-            System.out.println("Clause null");
-            System.out.println(this.getLiterals());
+//            System.out.println("Clause null");
+//            System.out.println(this.getLiterals());
             for (Literal lit : this.getLiterals()){
-                System.out.println("lit" +lit+ "  "+ lit.getTruthValue());
+//                System.out.println("lit" +lit+ "  "+ lit.getTruthValue());
 
             }
             return null;

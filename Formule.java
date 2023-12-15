@@ -25,7 +25,7 @@ public class Formule {
     }
     public void changeValue(Literal literal){
         int index = literalList.indexOf(literal);
-        assignedLiteralList.set(index,1);
+        assignedLiteralList.set(index,(assignedLiteralList.get(index)+1));
 
     }
     public void changeValueNoMoreAffected(Literal literal){
@@ -98,17 +98,17 @@ public class Formule {
 
         for (Clause clause : allClauses){
 
-            System.out.println(clause);
-            System.out.println(clause.isSatisfaisable());
+//            System.out.println(clause);
+//            System.out.println(clause.isSatisfaisable());
 
 
             if(clause.isSatisfaisable() != null) {
 
                 if (clause.isSatisfaisable().equals(false)) {
-                    System.out.println("clause fause");
+//                    System.out.println("clause fause");
                     return false;
                 } else {
-                    System.out.println("clause vraie");
+//                    System.out.println("clause vraie");
                     trueCounter ++;
 
                 }
@@ -260,7 +260,7 @@ public class Formule {
 
                     Literal monolit = clause.getliteralFromMonoClause();
                     this.affectTruthValue(monolit, condition);
-                    System.out.println("mono");
+
 
                     return monolit;
 
@@ -276,7 +276,7 @@ public class Formule {
 
                 pureLiterals.get(1).setTruthValue(condition);
                 changeValue(pureLiterals.get(1));
-                System.out.println("pur");
+
                 return (pureLiterals.get(1));
             }
         }
@@ -284,7 +284,7 @@ public class Formule {
         Literal litSat = this.firstSatisfy();
 
         this.affectTruthValue(litSat,condition);
-        System.out.println("else");
+
         return (litSat);
     }
 

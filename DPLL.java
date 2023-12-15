@@ -14,7 +14,7 @@ public class DPLL {
 
             Literal assignedLiteral = formule.assignLiteralFirstFail(true);
             literalStack.push(assignedLiteral);
-            System.out.println((formule.isFormulaSatisfaisaible() != null));
+
             if (formule.isFormulaSatisfaisaible() != null) {
                 if (formule.isFormulaSatisfaisaible().equals(true)) {
                     ArrayList<Literal> modeleTrue = new ArrayList<>();
@@ -44,6 +44,7 @@ public class DPLL {
 
 
         while (!literalStack.isEmpty()){
+            System.out.println(literalStack);
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
            Literal litChangAssignement = literalStack.pop();
            formule.affectTruthValue(litChangAssignement, !litChangAssignement.getTruthValue());
@@ -94,25 +95,37 @@ public class DPLL {
 
     public ArrayList solveFirstFailUnique(Formule formule) {
         System.out.println(formule);
-
         Stack<Literal> literalStack = new Stack<>();
 
         ArrayList<HashMap<Boolean, ArrayList<Literal>>> modeles = new ArrayList<>();
+//        System.out.println(formule.literalList);
+//        System.out.println(formule.assignedLiteralList);
+//        System.out.println(formule.getlitValueT());
 
         while ((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)) {
+
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
 
             Literal assignedLiteral = formule.assignLiteralFirstFail(true);
-            literalStack.push(assignedLiteral);
+//            System.out.println("assignedLiteral " + assignedLiteral);
+//            System.out.println("assignedLiteral " + assignedLiteral.getTruthValue());
+//            System.out.println(formule.assignedLiteralList);
+//            System.out.println(formule.getlitValueT());
 
+            literalStack.push(assignedLiteral);
+//            System.out.println("literalStack " + literalStack);
+//            System.out.println("formule.isFormulaSatisfaisaible()"+" " + formule.isFormulaSatisfaisaible());
+//            System.out.println("formule.isFormulaSatisfaisaible() != null  " + (formule.isFormulaSatisfaisaible() != null));
             if (formule.isFormulaSatisfaisaible() != null) {
-                if (formule.isFormulaSatisfaisaible().equals(true)) {
+//                System.out.println("a");
+//                System.out.println("1" + formule.isFormulaSatisfaisaible());
+                if (formule.isFormulaSatisfaisaible()) {
                     ArrayList<Literal> modeleTrue = new ArrayList<>();
                     ArrayList<Literal> modeleFalse = new ArrayList<>();
                     ArrayList<Literal> modelenull = new ArrayList<>();
-
+//                    System.out.println(formule.getLiteralsFromFormule());
                     for (Literal literalFormule : formule.getLiteralsFromFormule()) {
-
+//                        System.out.println(literalFormule.getTruthValue());
                         if (literalFormule.getTruthValue() != null) {
                             if(literalFormule.getTruthValue()) {
                                 modeleTrue.add(literalFormule);
@@ -134,12 +147,20 @@ public class DPLL {
         }
 
 
+//        System.out.println("c");
         while (!literalStack.isEmpty()){
+//            System.out.println("literalStack" +"  " + literalStack);
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
 
-            Literal litChangAssignement = literalStack.pop();
+            Literal litChangAssignement = literalStack.peek();
+//            System.out.println("litChangAssignement " + litChangAssignement + " " + !litChangAssignement.getTruthValue());
+
 
             formule.affectTruthValue(litChangAssignement, !litChangAssignement.getTruthValue());
+            Stack literalStackCopy = (Stack) literalStack.clone();
+
+
+
 
             for (Literal literal : formule.getLiteralsFromFormule()){
 
@@ -148,12 +169,26 @@ public class DPLL {
                 }
 
             }
+//            System.out.println("literal modifié : " + litChangAssignement +" "+litChangAssignement.opposite());
+//            System.out.println( "LiteralList" + formule.literalList);
+//            System.out.println("assigned literal liste " + formule.assignedLiteralList);
+//            System.out.println("null ? "+ (formule.isFormulaSatisfaisaible() == null));
 
-            while((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)){
+
+            while((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null) &(!literalStackCopy.equals(literalStack))){
+//                System.out.println("Debut nouvelle sous branche");
 
                 Literal literalAffected = formule.assignLiteralFirstFail(true);
-                literalStack.push(literalAffected);
+//                System.out.println("literalAffected " + literalAffected + " " + literalAffected.getTruthValue());
+//                System.out.println(literalAffected + " affected "+literalAffected.getAffectationCounter());
+                if(literalAffected.getAffectationCounter() > 1 ){
+                    break;
+                }
+                literalStackCopy.push(literalAffected);
 
+//                System.out.println(formule.assignedLiteralList);
+
+//                System.out.println("formule satisfaisable "+ formule.isFormulaSatisfaisaible());
                 if (formule.isFormulaSatisfaisaible() != null) {
                     if (formule.isFormulaSatisfaisaible().equals(true)) {
                         ArrayList<Literal> modeleTrue = new ArrayList<>();
@@ -177,16 +212,19 @@ public class DPLL {
                         modele.put(Boolean.FALSE, modeleFalse);
                         modele.put(null, modelenull);
                         modeles.add(modele);
-                        return modeles;
+                        return(modeles);
                     }
                     break;
                 }
             }
-            break;
+            Literal deleteLiteral =literalStack.pop();
+            literalStack.removeElement(deleteLiteral.opposite());
+//            System.out.println("literalStack" + literalStack);
         }
 
         return modeles;
     }
+
 
     // DPLL FirstSatisfy
     public ArrayList solveFirstSatisfy(Formule formule) {
@@ -202,7 +240,7 @@ public class DPLL {
 
             Literal assignedLiteral = formule.assignLiteralFirstTail(true);
             literalStack.push(assignedLiteral);
-            System.out.println((formule.isFormulaSatisfaisaible() != null));
+
             if (formule.isFormulaSatisfaisaible() != null) {
                 if (formule.isFormulaSatisfaisaible().equals(true)) {
                     ArrayList<Literal> modeleTrue = new ArrayList<>();
@@ -289,34 +327,34 @@ public class DPLL {
         Stack<Literal> literalStack = new Stack<>();
 
         ArrayList<HashMap<Boolean, ArrayList<Literal>>> modeles = new ArrayList<>();
-        System.out.println(formule.literalList);
-        System.out.println(formule.assignedLiteralList);
-        System.out.println(formule.getlitValueT());
+//        System.out.println(formule.literalList);
+//        System.out.println(formule.assignedLiteralList);
+//        System.out.println(formule.getlitValueT());
 
         while ((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)) {
 
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
 
             Literal assignedLiteral = formule.assignLiteralFirstTail(true);
-            System.out.println("assignedLiteral " + assignedLiteral);
-            System.out.println("assignedLiteral " + assignedLiteral.getTruthValue());
-            System.out.println(formule.assignedLiteralList);
-            System.out.println(formule.getlitValueT());
+//            System.out.println("assignedLiteral " + assignedLiteral);
+//            System.out.println("assignedLiteral " + assignedLiteral.getTruthValue());
+//            System.out.println(formule.assignedLiteralList);
+//            System.out.println(formule.getlitValueT());
 
             literalStack.push(assignedLiteral);
-            System.out.println("literalStack " + literalStack);
-            System.out.println("formule.isFormulaSatisfaisaible()"+" " + formule.isFormulaSatisfaisaible());
-            System.out.println("formule.isFormulaSatisfaisaible() != null  " + (formule.isFormulaSatisfaisaible() != null));
+//            System.out.println("literalStack " + literalStack);
+//            System.out.println("formule.isFormulaSatisfaisaible()"+" " + formule.isFormulaSatisfaisaible());
+//            System.out.println("formule.isFormulaSatisfaisaible() != null  " + (formule.isFormulaSatisfaisaible() != null));
             if (formule.isFormulaSatisfaisaible() != null) {
-                System.out.println("a");
-                System.out.println("1" + formule.isFormulaSatisfaisaible());
+//                System.out.println("a");
+//                System.out.println("1" + formule.isFormulaSatisfaisaible());
                 if (formule.isFormulaSatisfaisaible()) {
                     ArrayList<Literal> modeleTrue = new ArrayList<>();
                     ArrayList<Literal> modeleFalse = new ArrayList<>();
                     ArrayList<Literal> modelenull = new ArrayList<>();
-                    System.out.println(formule.getLiteralsFromFormule());
+//                    System.out.println(formule.getLiteralsFromFormule());
                     for (Literal literalFormule : formule.getLiteralsFromFormule()) {
-                        System.out.println(literalFormule.getTruthValue());
+//                        System.out.println(literalFormule.getTruthValue());
                         if (literalFormule.getTruthValue() != null) {
                             if(literalFormule.getTruthValue()) {
                                 modeleTrue.add(literalFormule);
@@ -338,13 +376,13 @@ public class DPLL {
         }
 
 
-        System.out.println("c");
+//        System.out.println("c");
         while (!literalStack.isEmpty()){
-            System.out.println("literalStack" +"  " + literalStack);
+//            System.out.println("literalStack" +"  " + literalStack);
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
 
             Literal litChangAssignement = literalStack.peek();
-            System.out.println("litChangAssignement " + litChangAssignement + " " + !litChangAssignement.getTruthValue());
+//            System.out.println("litChangAssignement " + litChangAssignement + " " + !litChangAssignement.getTruthValue());
 
 
             formule.affectTruthValue(litChangAssignement, !litChangAssignement.getTruthValue());
@@ -360,26 +398,26 @@ public class DPLL {
                 }
 
             }
-            System.out.println("literal modifié : " + litChangAssignement +" "+litChangAssignement.opposite());
-            System.out.println( "LiteralList" + formule.literalList);
-            System.out.println("assigned literal liste " + formule.assignedLiteralList);
-            System.out.println("null ? "+ (formule.isFormulaSatisfaisaible() == null));
+//            System.out.println("literal modifié : " + litChangAssignement +" "+litChangAssignement.opposite());
+//            System.out.println( "LiteralList" + formule.literalList);
+//            System.out.println("assigned literal liste " + formule.assignedLiteralList);
+//            System.out.println("null ? "+ (formule.isFormulaSatisfaisaible() == null));
 
 
             while((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null) &(!literalStackCopy.equals(literalStack))){
-                System.out.println("Debut nouvelle sous branche");
+//                System.out.println("Debut nouvelle sous branche");
 
                 Literal literalAffected = formule.assignLiteralFirstTail(true);
-                System.out.println("literalAffected " + literalAffected + " " + literalAffected.getTruthValue());
-                System.out.println(literalAffected + " affected "+literalAffected.getAffectationCounter());
+//                System.out.println("literalAffected " + literalAffected + " " + literalAffected.getTruthValue());
+//                System.out.println(literalAffected + " affected "+literalAffected.getAffectationCounter());
                 if(literalAffected.getAffectationCounter() > 1 ){
                     break;
                 }
                 literalStackCopy.push(literalAffected);
 
-                System.out.println(formule.assignedLiteralList);
+//                System.out.println(formule.assignedLiteralList);
 
-                System.out.println("formule satisfaisable "+ formule.isFormulaSatisfaisaible());
+//                System.out.println("formule satisfaisable "+ formule.isFormulaSatisfaisaible());
                 if (formule.isFormulaSatisfaisaible() != null) {
                     if (formule.isFormulaSatisfaisaible().equals(true)) {
                         ArrayList<Literal> modeleTrue = new ArrayList<>();
@@ -410,7 +448,7 @@ public class DPLL {
             }
             Literal deleteLiteral =literalStack.pop();
             literalStack.removeElement(deleteLiteral.opposite());
-            System.out.println("literalStack" + literalStack);
+//            System.out.println("literalStack" + literalStack);
         }
 
         return modeles;
@@ -516,21 +554,34 @@ public class DPLL {
         Stack<Literal> literalStack = new Stack<>();
 
         ArrayList<HashMap<Boolean, ArrayList<Literal>>> modeles = new ArrayList<>();
+//        System.out.println(formule.literalList);
+//        System.out.println(formule.assignedLiteralList);
+//        System.out.println(formule.getlitValueT());
 
         while ((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)) {
+
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
 
             Literal assignedLiteral = formule.assignLiteralRandom(true);
-            literalStack.push(assignedLiteral);
+//            System.out.println("assignedLiteral " + assignedLiteral);
+//            System.out.println("assignedLiteral " + assignedLiteral.getTruthValue());
+//            System.out.println(formule.assignedLiteralList);
+//            System.out.println(formule.getlitValueT());
 
+            literalStack.push(assignedLiteral);
+//            System.out.println("literalStack " + literalStack);
+//            System.out.println("formule.isFormulaSatisfaisaible()"+" " + formule.isFormulaSatisfaisaible());
+//            System.out.println("formule.isFormulaSatisfaisaible() != null  " + (formule.isFormulaSatisfaisaible() != null));
             if (formule.isFormulaSatisfaisaible() != null) {
-                if (formule.isFormulaSatisfaisaible().equals(true)) {
+//                System.out.println("a");
+//                System.out.println("1" + formule.isFormulaSatisfaisaible());
+                if (formule.isFormulaSatisfaisaible()) {
                     ArrayList<Literal> modeleTrue = new ArrayList<>();
                     ArrayList<Literal> modeleFalse = new ArrayList<>();
                     ArrayList<Literal> modelenull = new ArrayList<>();
-
+//                    System.out.println(formule.getLiteralsFromFormule());
                     for (Literal literalFormule : formule.getLiteralsFromFormule()) {
-
+//                        System.out.println(literalFormule.getTruthValue());
                         if (literalFormule.getTruthValue() != null) {
                             if(literalFormule.getTruthValue()) {
                                 modeleTrue.add(literalFormule);
@@ -552,10 +603,20 @@ public class DPLL {
         }
 
 
+//        System.out.println("c");
         while (!literalStack.isEmpty()){
+//            System.out.println("literalStack" +"  " + literalStack);
             HashMap<Boolean, ArrayList<Literal>> modele = new HashMap<>();
-            Literal litChangAssignement = literalStack.pop();
+
+            Literal litChangAssignement = literalStack.peek();
+//            System.out.println("litChangAssignement " + litChangAssignement + " " + !litChangAssignement.getTruthValue());
+
+
             formule.affectTruthValue(litChangAssignement, !litChangAssignement.getTruthValue());
+            Stack literalStackCopy = (Stack) literalStack.clone();
+
+
+
 
             for (Literal literal : formule.getLiteralsFromFormule()){
 
@@ -564,12 +625,26 @@ public class DPLL {
                 }
 
             }
+//            System.out.println("literal modifié : " + litChangAssignement +" "+litChangAssignement.opposite());
+//            System.out.println( "LiteralList" + formule.literalList);
+//            System.out.println("assigned literal liste " + formule.assignedLiteralList);
+//            System.out.println("null ? "+ (formule.isFormulaSatisfaisaible() == null));
 
-            while((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null)){
+
+            while((formule.assignedLiteralList.contains(0)) & (formule.isFormulaSatisfaisaible() == null) &(!literalStackCopy.equals(literalStack))){
+//                System.out.println("Debut nouvelle sous branche");
 
                 Literal literalAffected = formule.assignLiteralRandom(true);
-                literalStack.push(literalAffected);
+//                System.out.println("literalAffected " + literalAffected + " " + literalAffected.getTruthValue());
+//                System.out.println(literalAffected + " affected "+literalAffected.getAffectationCounter());
+                if(literalAffected.getAffectationCounter() > 1 ){
+                    break;
+                }
+                literalStackCopy.push(literalAffected);
 
+//                System.out.println(formule.assignedLiteralList);
+
+//                System.out.println("formule satisfaisable "+ formule.isFormulaSatisfaisaible());
                 if (formule.isFormulaSatisfaisaible() != null) {
                     if (formule.isFormulaSatisfaisaible().equals(true)) {
                         ArrayList<Literal> modeleTrue = new ArrayList<>();
@@ -593,16 +668,19 @@ public class DPLL {
                         modele.put(Boolean.FALSE, modeleFalse);
                         modele.put(null, modelenull);
                         modeles.add(modele);
-                        return modeles;
+                        return(modeles);
                     }
                     break;
                 }
             }
-            break;
+            Literal deleteLiteral =literalStack.pop();
+            literalStack.removeElement(deleteLiteral.opposite());
+//            System.out.println("literalStack" + literalStack);
         }
 
         return modeles;
     }
+
 
 }
 

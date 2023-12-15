@@ -98,21 +98,21 @@ public class Tester {
         Literal B = new Literal(17);
         B.setTruthValue(true);
 
-        Clause b = new Clause(new ArrayList<>(List.of(A,Y,O)));
-        Clause g = new Clause(new ArrayList<>(List.of(null1)));
+        Clause ab = new Clause(new ArrayList<>(List.of(A,Y,O)));
+        Clause cd = new Clause(new ArrayList<>(List.of(null1)));
 
-        Formule ilGere = new Formule(new ArrayList<>(List.of(b,g)));
+        Formule ilGere = new Formule(new ArrayList<>(List.of(ab,cd)));
         System.out.println(null1.getTruthValue());
-        System.out.println(g);
-        System.out.println(g.isSatisfaisable());
+        System.out.println(ab);
+        System.out.println(cd.isSatisfaisable());
 
     }
     @Test
     public void isClauseSatisfaisableTest(){
-        Clause Ayoub = new Clause(new ArrayList<>(List.of(_x,_z)));
+        Clause ab = new Clause(new ArrayList<>(List.of(_x,_z)));
         _x.setTruthValue(false);
         _z.setTruthValue(false);
-        System.out.println("sat" +Ayoub.isSatisfaisable());
+        System.out.println("sat" +ab.isSatisfaisable());
 
 //        Clause is = new Clause(new ArrayList<>(List.of(_x,_y)));
 //        Clause bg =  new Clause(new ArrayList<>(List.of(x,z)));
@@ -121,7 +121,7 @@ public class Tester {
 //        Clause isnt =  new Clause(new ArrayList<>(List.of(y,w)));
 //        Clause it =  new Clause(new ArrayList<>(List.of(_x,_w)));
 //        Clause bb =  new Clause(new ArrayList<>(List.of(_y,_z)));
-//        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, bg, really, truelly, isnt, it, bb)));
+//        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(ab, is, bg, really, truelly, isnt, it, bb)));
 //        System.out.println(bgOfTheWorld);
 //
 //        System.out.println(bgOfTheWorld);
@@ -135,7 +135,7 @@ public class Tester {
 //        System.out.println(_y +" "+_y.getTruthValue());
 //        System.out.println(y +" "+y.getTruthValue());
 //        System.out.println(bgOfTheWorld.firstSatisfy());
-//        System.out.println("Ayoub " +Ayoub + Ayoub.isSatisfaisable());
+//        System.out.println("ab " +ab + ab.isSatisfaisable());
 //        System.out.println("is " + is +is.isSatisfaisable());
 //        System.out.println("bg " + bg+ bg.isSatisfaisable());
 //        System.out.println("really "+really +really.isSatisfaisable());
@@ -177,10 +177,13 @@ public class Tester {
 
         Formule formulea = new Formule(new ArrayList<>(List.of(tuGeresLaFougere,weLoveCow)));
         formulea.affectTruthValue(t,false);
+        formulea.affectTruthValue(t,false);
         formulea.affectTruthValue(o,true);
 
+        System.out.println(formulea.assignedLiteralList);
         assert(t.getTruthValue() == false);
         assert(_t.getTruthValue() == true);
+
         System.out.println(formulea.isFormulaSatisfaisaible());
 
     }
@@ -370,17 +373,18 @@ public class Tester {
     }
 
     @Test
-    public void solveFirstFailTest(){
+    public void solveFirstFailUniqueTest(){
 
-        Clause Ayoub = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
-        Clause is = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
-        Clause beauGosse = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
-        Clause isntIt = new Clause(new ArrayList<>(List.of(z)));
-        Formule bgOfTheWorld = new Formule(new ArrayList<>(List.of(Ayoub, is, beauGosse, isntIt)));
-        System.out.println(bgOfTheWorld);
+        Clause ab = new Clause(new ArrayList<>(List.of(x, _x, t, _t)));
+        Clause cd = new Clause(new ArrayList<>(List.of(z, x, t, _z, y, _t, _x)));
+        Clause ef = new Clause(new ArrayList<>(List.of(y, _x, _t, x)));
+        Clause gh = new Clause(new ArrayList<>(List.of(z)));
+        Formule abcdefgh = new Formule(new ArrayList<>(List.of(ab, cd, ef, gh)));
+
+
 
         DPLL dpll = new DPLL();
-        System.out.println(dpll.solveFirstFail(bgOfTheWorld));
+        System.out.println(dpll.solveFirstFail(abcdefgh));
 
     }
 
@@ -455,14 +459,14 @@ public class Tester {
         QueenGeneratorCNF queenGeneratorCNF = new QueenGeneratorCNF();
         Queen queen = new Queen(4);
         NQueenGenrator nQueenGenrator =new NQueenGenrator(4);
-        DPLL dpll2 =new DPLL();
+        DPPL2 dpll2 =new DPPL2();
         StandardParser parser = new StandardParser();
 
         nQueenGenrator.generate();
         Formule formule6 = parser.parse(nQueenGenrator.getFilePath());
         Formule formule7 = queen.getDamesFormule();
         System.out.println(formule6);
-        System.out.println(dpll2.solveFirstSatisfyUnique(formule6));
+        System.out.println(dpll2.solveFirstSatisfyUnique2(formule6));
 
 
     }
